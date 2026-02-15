@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nikhil Jaggi — AI/ML Engineer</title>
+    <meta name="description" content="Nikhil Jaggi — AI/ML Engineer specializing in Machine Learning, Deep Learning, NLP, and Full-Stack Development. B.Tech CSE at Lovely Professional University.">
+    <meta name="keywords" content="AI Engineer, ML Engineer, Machine Learning, Deep Learning, NLP, Python, Java, Portfolio">
+    <meta name="author" content="Nikhil Jaggi">
+    <meta name="theme-color" content="#09090b">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Nikhil Jaggi — AI/ML Engineer">
+    <meta property="og:description" content="Building intelligent systems that solve real-world problems.">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Noise Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-ring">
+                <svg viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" class="preloader-circle-bg"/>
+                    <circle cx="50" cy="50" r="45" class="preloader-circle-fill"/>
+                </svg>
+            </div>
+            <div class="preloader-text">
+                <span class="preloader-name">NIKHIL JAGGI</span>
+                <span class="preloader-role">AI/ML ENGINEER</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cursor -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-outline" id="cursorOutline"></div>
+
+    <!-- Gradient Orbs Background -->
+    <div class="gradient-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- ==================== TOP STATUS BAR ==================== -->
+    <div class="top-status-bar">
+        <div class="status-bar-inner">
+            <span class="status-bar-item"><i class="fas fa-bolt"></i> Open to AI/ML roles — Remote & On-site</span>
+            <span class="status-bar-sep">·</span>
+            <span class="status-bar-item">Based in India</span>
+            <span class="status-bar-sep">·</span>
+            <a href="#contact" class="status-bar-cta">Get in touch <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <div class="logo-mark">NJ</div>
+                <span class="logo-text">nikhil jaggi</span>
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#achievements" class="nav-link">Achievements</a>
+                <a href="#education" class="nav-link">Education</a>
+                <a href="#contact" class="nav-link nav-link-cta">
+                    <span class="cta-dot"></span>
+                    Let's Talk
+                </a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO ==================== -->
+    <section class="hero" id="hero">
+        <div class="hero-grid-bg"></div>
+        <div class="hero-glow-orb"></div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-availability" data-animate="fade-up">
+                    <span class="avail-pulse"></span>
+                    <span>Available for opportunities</span>
+                </div>
+                <h1 class="hero-title" data-animate="fade-up" data-delay="100">
+                    <span class="hero-line-reveal">
+                        <span class="hero-greeting">I'm Nikhil Jaggi</span>
+                    </span>
+                    <span class="hero-line-reveal">
+                        <span class="hero-headline">I build <em>intelligent</em></span>
+                    </span>
+                    <span class="hero-line-reveal">
+                        <span class="hero-headline">systems that <span class="text-shimmer">matter</span>.</span>
+                    </span>
+                </h1>
+                <div class="hero-role-bar" data-animate="fade-up" data-delay="300">
+                    <span class="role-label">Specializing in</span>
+                    <span class="role-typed" id="typedText"></span><span class="typed-cursor">|</span>
+                </div>
+                <p class="hero-description" data-animate="fade-up" data-delay="400">
+                    Transforming raw data into actionable intelligence through
+                    <strong>Machine Learning</strong>, <strong>Deep Learning</strong>, and <strong>NLP</strong> —
+                    backed by full-stack engineering to deliver end-to-end production systems.
+                </p>
+                <div class="hero-actions" data-animate="fade-up" data-delay="500">
+                    <a href="#projects" class="btn btn-primary magnetic">
+                        <span>View Projects</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="assets/MYCV313.pdf" class="btn btn-glass magnetic" download>
+                        <span>Download CV</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0l-3-3m3 3l3-3M3 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="http://www.linkedin.com/in/nikhiljaggi" target="_blank" rel="noopener" class="btn btn-outline magnetic">
+                        <i class="fab fa-linkedin-in"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+                <div class="hero-metrics" data-animate="fade-up" data-delay="600">
+                    <div class="metric">
+                        <span class="metric-value" data-target="250">0</span><span class="metric-suffix">+</span>
+                        <span class="metric-label">Problems Solved</span>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric">
+                        <span class="metric-value" data-target="300">0</span><span class="metric-suffix">+</span>
+                        <span class="metric-label">Classes Taught</span>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric">
+                        <span class="metric-value" data-target="150">0</span><span class="metric-suffix">+</span>
+                        <span class="metric-label">Day Streak</span>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric">
+                        <span class="metric-value" data-target="5">0</span><span class="metric-suffix">★</span>
+                        <span class="metric-label">Java HackerRank</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual" data-animate="fade-left">
+                <div class="hero-orb-container">
+                    <div class="hero-orb">
+                        <div class="orb-gradient"></div>
+                        <div class="orb-ring orb-ring-1"></div>
+                        <div class="orb-ring orb-ring-2"></div>
+                        <div class="orb-ring orb-ring-3"></div>
+                        <div class="orb-icon"><i class="fas fa-brain"></i></div>
+                    </div>
+                    <div class="floating-chip chip-1" data-speed="2"><i class="fab fa-python"></i> Python</div>
+                    <div class="floating-chip chip-2" data-speed="3"><i class="fas fa-robot"></i> ML</div>
+                    <div class="floating-chip chip-3" data-speed="2.5"><i class="fab fa-java"></i> Java</div>
+                    <div class="floating-chip chip-4" data-speed="1.5"><i class="fab fa-react"></i> React</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll-line">
+            <span>Scroll</span>
+            <div class="scroll-line-track"><div class="scroll-line-thumb"></div></div>
+        </div>
+    </section>
+
+    <!-- ==================== TECH MARQUEE ==================== -->
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <div class="marquee-content">
+                <span class="marquee-item"><i class="fab fa-python"></i> Python</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fab fa-java"></i> Java</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fas fa-brain"></i> Machine Learning</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fas fa-network-wired"></i> Deep Learning</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fas fa-comments"></i> NLP</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fab fa-react"></i> React</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fas fa-fire"></i> Firebase</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fas fa-code-branch"></i> Git</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fab fa-python"></i> Scikit-learn</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fas fa-database"></i> Pandas</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fab fa-js-square"></i> JavaScript</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fas fa-wind"></i> Tailwind CSS</span>
+                <span class="marquee-dot">◆</span>
+                <!-- Duplicate for seamless loop -->
+                <span class="marquee-item"><i class="fab fa-python"></i> Python</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fab fa-java"></i> Java</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fas fa-brain"></i> Machine Learning</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fas fa-network-wired"></i> Deep Learning</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fas fa-comments"></i> NLP</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fab fa-react"></i> React</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fas fa-fire"></i> Firebase</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fas fa-code-branch"></i> Git</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fab fa-python"></i> Scikit-learn</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fas fa-database"></i> Pandas</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fab fa-js-square"></i> JavaScript</span>
+                <span class="marquee-dot">◆</span>
+                <span class="marquee-item"><i class="fas fa-wind"></i> Tailwind CSS</span>
+                <span class="marquee-dot">◆</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== ABOUT ==================== -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-label" data-animate="fade-up">
+                <span class="section-num">01</span>
+                <span class="section-name">About</span>
+                <span class="section-rule"></span>
+            </div>
+            <div class="about-grid">
+                <div class="about-text" data-animate="fade-right">
+                    <h2 class="about-headline">Turning complex data into <span class="text-shimmer">intelligent solutions</span></h2>
+                    <p class="about-lead">I'm a <strong>B.Tech Computer Science</strong> student at <strong>Lovely Professional University</strong>
+                    with a deep passion for building AI-driven systems that solve real-world problems.</p>
+                    <p>My journey spans from developing recommendation systems using <strong>KNN & K-Means clustering</strong>,
+                    to building platforms powered by <strong>Google Generative AI</strong>, to solving <strong>250+ coding problems</strong>
+                    on competitive platforms. I bring a unique blend of theoretical depth and production-grade implementation.</p>
+                    <p>As a former <strong>Coding Instructor at BrightChamps</strong>, I conducted <strong>300+ live classes globally</strong> —
+                    sharpening my ability to communicate complex technical concepts with clarity and precision.</p>
+                    <div class="about-details">
+                        <div class="detail-item">
+                            <span class="detail-key">Location</span>
+                            <span class="detail-val">Kathua, J&K / Punjab, India</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-key">Education</span>
+                            <span class="detail-val">B.Tech CSE — LPU</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-key">Languages</span>
+                            <span class="detail-val">English, Hindi</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-key">Focus</span>
+                            <span class="detail-val">AI/ML, Deep Learning, NLP</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-card" data-animate="fade-left">
+                    <div class="terminal">
+                        <div class="terminal-bar">
+                            <div class="terminal-dots">
+                                <span class="tdot tdot-r"></span>
+                                <span class="tdot tdot-y"></span>
+                                <span class="tdot tdot-g"></span>
+                            </div>
+                            <span class="terminal-title">nikhil@portfolio ~ zsh</span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="term-line">
+                                <span class="term-prompt">❯</span>
+                                <span class="term-cmd">cat profile.json</span>
+                            </div>
+                            <div class="term-output">
+<pre>{
+  <span class="jk">"name"</span>: <span class="jv">"Nikhil Jaggi"</span>,
+  <span class="jk">"role"</span>: <span class="jv">"AI/ML Engineer"</span>,
+  <span class="jk">"expertise"</span>: [
+    <span class="jv">"Machine Learning"</span>,
+    <span class="jv">"Deep Learning"</span>,
+    <span class="jv">"Natural Language Processing"</span>,
+    <span class="jv">"Full-Stack Development"</span>
+  ],
+  <span class="jk">"strengths"</span>: [
+    <span class="jv">"Problem Solving"</span>,
+    <span class="jv">"System Design"</span>,
+    <span class="jv">"Technical Communication"</span>
+  ],
+  <span class="jk">"philosophy"</span>: <span class="jv">"Code. Learn. Ship."</span>
+}</pre>
+                            </div>
+                            <div class="term-line">
+                                <span class="term-prompt">❯</span>
+                                <span class="term-cursor">_</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== WHAT I BRING ==================== -->
+    <section class="section section-dark" id="value">
+        <div class="container">
+            <div class="value-grid">
+                <div class="value-card" data-animate="fade-up" data-delay="0">
+                    <div class="value-num">01</div>
+                    <div class="value-icon"><i class="fas fa-brain"></i></div>
+                    <h3>AI/ML Engineering</h3>
+                    <p>Building recommendation engines, NLP pipelines, and predictive models with production-grade quality.</p>
+                </div>
+                <div class="value-card" data-animate="fade-up" data-delay="100">
+                    <div class="value-num">02</div>
+                    <div class="value-icon"><i class="fas fa-layer-group"></i></div>
+                    <h3>Full-Stack Development</h3>
+                    <p>End-to-end web applications using React, Redux, Firebase, and the MERN stack.</p>
+                </div>
+                <div class="value-card" data-animate="fade-up" data-delay="200">
+                    <div class="value-num">03</div>
+                    <div class="value-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h3>Problem Solving</h3>
+                    <p>250+ problems solved across CodeChef & HackerRank with 5-star Java rating.</p>
+                </div>
+                <div class="value-card" data-animate="fade-up" data-delay="300">
+                    <div class="value-num">04</div>
+                    <div class="value-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <h3>Technical Communication</h3>
+                    <p>300+ live classes taught globally — translating complex concepts into clear, actionable knowledge.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SKILLS ==================== -->
+    <section class="section" id="skills">
+        <div class="container">
+            <div class="section-label" data-animate="fade-up">
+                <span class="section-num">02</span>
+                <span class="section-name">Skills & Technologies</span>
+                <span class="section-rule"></span>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category" data-animate="fade-up" data-delay="0">
+                    <div class="skill-cat-header">
+                        <div class="skill-icon-wrap"><i class="fas fa-terminal"></i></div>
+                        <div>
+                            <h3>Languages</h3>
+                            <span class="skill-cat-sub">Core proficiency</span>
+                        </div>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag"><i class="fab fa-python"></i> Python</span>
+                        <span class="skill-tag"><i class="fab fa-java"></i> Java</span>
+                        <span class="skill-tag"><i class="fas fa-code"></i> C++</span>
+                        <span class="skill-tag"><i class="fas fa-code"></i> C</span>
+                        <span class="skill-tag"><i class="fab fa-js-square"></i> JavaScript</span>
+                    </div>
+                    <div class="skill-bars">
+                        <div class="sbar">
+                            <div class="sbar-info"><span>Python</span><span>85%</span></div>
+                            <div class="sbar-track"><div class="sbar-fill" data-width="85"></div></div>
+                        </div>
+                        <div class="sbar">
+                            <div class="sbar-info"><span>Java</span><span>90%</span></div>
+                            <div class="sbar-track"><div class="sbar-fill" data-width="90"></div></div>
+                        </div>
+                        <div class="sbar">
+                            <div class="sbar-info"><span>C/C++</span><span>80%</span></div>
+                            <div class="sbar-track"><div class="sbar-fill" data-width="80"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category" data-animate="fade-up" data-delay="100">
+                    <div class="skill-cat-header">
+                        <div class="skill-icon-wrap"><i class="fas fa-brain"></i></div>
+                        <div>
+                            <h3>AI / ML</h3>
+                            <span class="skill-cat-sub">Intelligence layer</span>
+                        </div>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">KNN</span>
+                        <span class="skill-tag">K-Means</span>
+                        <span class="skill-tag">Recommendation Systems</span>
+                        <span class="skill-tag">NLP</span>
+                        <span class="skill-tag">Google Generative AI</span>
+                        <span class="skill-tag">Scikit-learn</span>
+                    </div>
+                    <div class="skill-bars">
+                        <div class="sbar">
+                            <div class="sbar-info"><span>Machine Learning</span><span>80%</span></div>
+                            <div class="sbar-track"><div class="sbar-fill" data-width="80"></div></div>
+                        </div>
+                        <div class="sbar">
+                            <div class="sbar-info"><span>Data Analysis</span><span>75%</span></div>
+                            <div class="sbar-track"><div class="sbar-fill" data-width="75"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category" data-animate="fade-up" data-delay="200">
+                    <div class="skill-cat-header">
+                        <div class="skill-icon-wrap"><i class="fas fa-layer-group"></i></div>
+                        <div>
+                            <h3>Web & Frameworks</h3>
+                            <span class="skill-cat-sub">Frontend & backend</span>
+                        </div>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag"><i class="fab fa-html5"></i> HTML5</span>
+                        <span class="skill-tag"><i class="fab fa-css3-alt"></i> CSS3</span>
+                        <span class="skill-tag"><i class="fab fa-react"></i> React</span>
+                        <span class="skill-tag">Redux</span>
+                        <span class="skill-tag">Tailwind CSS</span>
+                        <span class="skill-tag">MERN Stack</span>
+                    </div>
+                    <div class="skill-bars">
+                        <div class="sbar">
+                            <div class="sbar-info"><span>Frontend</span><span>78%</span></div>
+                            <div class="sbar-track"><div class="sbar-fill" data-width="78"></div></div>
+                        </div>
+                        <div class="sbar">
+                            <div class="sbar-info"><span>MERN Stack</span><span>70%</span></div>
+                            <div class="sbar-track"><div class="sbar-fill" data-width="70"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category" data-animate="fade-up" data-delay="300">
+                    <div class="skill-cat-header">
+                        <div class="skill-icon-wrap"><i class="fas fa-wrench"></i></div>
+                        <div>
+                            <h3>Tools & Platforms</h3>
+                            <span class="skill-cat-sub">Dev ecosystem</span>
+                        </div>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag"><i class="fab fa-git-alt"></i> Git & GitHub</span>
+                        <span class="skill-tag">VS Code</span>
+                        <span class="skill-tag"><i class="fas fa-fire"></i> Firebase</span>
+                        <span class="skill-tag">Google Workspace</span>
+                        <span class="skill-tag">Canva</span>
+                    </div>
+                    <div class="skill-bars">
+                        <div class="sbar">
+                            <div class="sbar-info"><span>Git/GitHub</span><span>85%</span></div>
+                            <div class="sbar-track"><div class="sbar-fill" data-width="85"></div></div>
+                        </div>
+                        <div class="sbar">
+                            <div class="sbar-info"><span>Firebase</span><span>72%</span></div>
+                            <div class="sbar-track"><div class="sbar-fill" data-width="72"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== EXPERIENCE ==================== -->
+    <section class="section" id="experience">
+        <div class="container">
+            <div class="section-label" data-animate="fade-up">
+                <span class="section-num">03</span>
+                <span class="section-name">Experience</span>
+                <span class="section-rule"></span>
+            </div>
+            <div class="exp-card" data-animate="fade-up">
+                <div class="exp-sidebar">
+                    <div class="exp-company-logo"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="exp-timeline-line"></div>
+                </div>
+                <div class="exp-content">
+                    <div class="exp-header">
+                        <div>
+                            <h3 class="exp-title">Coding Instructor</h3>
+                            <span class="exp-company">BrightChamps</span>
+                        </div>
+                        <span class="exp-duration">4 Months · Internship</span>
+                    </div>
+                    <ul class="exp-list">
+                        <li>Delivered <strong>300+ live online coding classes</strong> to students across multiple countries</li>
+                        <li>Designed <strong>interactive, project-based curricula</strong> covering programming fundamentals</li>
+                        <li>Adapted teaching methodologies for diverse age groups and proficiency levels to ensure <strong>personalized learning outcomes</strong></li>
+                        <li>Recognized with an official <strong>recommendation letter</strong> for outstanding teaching performance</li>
+                    </ul>
+                    <div class="exp-tags">
+                        <span>Teaching</span>
+                        <span>Programming</span>
+                        <span>Mentorship</span>
+                        <span>Communication</span>
+                        <span>Curriculum Design</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PROJECTS ==================== -->
+    <section class="section section-dark" id="projects">
+        <div class="container">
+            <div class="section-label" data-animate="fade-up">
+                <span class="section-num">04</span>
+                <span class="section-name">Featured Projects</span>
+                <span class="section-rule"></span>
+            </div>
+            <p class="section-desc" data-animate="fade-up">End-to-end AI/ML solutions demonstrating real-world problem solving</p>
+
+            <!-- Project 1 - Featured -->
+            <div class="project-showcase" data-animate="fade-up">
+                <div class="project-showcase-content">
+                    <span class="project-label">Featured Project</span>
+                    <h3>Virtual Exhibition Recommendation Engine</h3>
+                    <div class="project-desc-card">
+                        <p>A personalized recommendation system for virtual exhibitions using
+                        <strong>K-Nearest Neighbors (KNN)</strong> and <strong>K-Means clustering</strong>
+                        to solve the cold-start problem. Leverages demographic attributes for intelligent
+                        user grouping with a weighted relevance scoring system.</p>
+                    </div>
+                    <div class="project-kpis">
+                        <div class="kpi">
+                            <span class="kpi-val">0.70</span>
+                            <span class="kpi-label">F1 Score</span>
+                        </div>
+                        <div class="kpi">
+                            <span class="kpi-val">KNN</span>
+                            <span class="kpi-label">Algorithm</span>
+                        </div>
+                        <div class="kpi">
+                            <span class="kpi-val">✓</span>
+                            <span class="kpi-label">Cold-Start Fix</span>
+                        </div>
+                    </div>
+                    <div class="project-stack">
+                        <span>Python</span><span>KNN</span><span>K-Means</span><span>Scikit-learn</span><span>Pandas</span><span>Git</span>
+                    </div>
+                    <a href="https://github.com/usernamejaggi" target="_blank" rel="noopener" class="btn btn-glass btn-sm magnetic" title="View Source">
+                        <i class="fab fa-github"></i> <span>View on GitHub</span>
+                    </a>
+                </div>
+                <div class="project-showcase-visual">
+                    <div class="code-window">
+                        <div class="code-bar">
+                            <span class="tdot tdot-r"></span>
+                            <span class="tdot tdot-y"></span>
+                            <span class="tdot tdot-g"></span>
+                            <span class="code-filename">recommendation.py</span>
+                        </div>
+                        <div class="code-body">
+<pre><span class="ck">from</span> <span class="cv">sklearn.neighbors</span> <span class="ck">import</span> KNeighborsClassifier
+<span class="ck">from</span> <span class="cv">sklearn.cluster</span> <span class="ck">import</span> KMeans
+
+<span class="ck">class</span> <span class="cf">RecommendationEngine</span>:
+    <span class="ck">def</span> <span class="cf">__init__</span>(self, n_clusters=<span class="cn">5</span>):
+        self.kmeans = KMeans(n_clusters)
+        self.knn = KNeighborsClassifier(n_neighbors=<span class="cn">7</span>)
+    
+    <span class="ck">def</span> <span class="cf">fit</span>(self, user_features, exhibitions):
+        <span class="cc"># Group users by demographics</span>
+        clusters = self.kmeans.fit_predict(user_features)
+        <span class="cc"># Train personalized model</span>
+        self.knn.fit(user_features, clusters)
+        <span class="ck">return</span> self
+    
+    <span class="ck">def</span> <span class="cf">recommend</span>(self, new_user):
+        cluster = self.knn.predict([new_user])
+        <span class="ck">return</span> self._score(cluster[<span class="cn">0</span>])</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="projects-row">
+                <div class="project-card" data-animate="fade-up" data-delay="100">
+                    <div class="project-card-top">
+                        <div class="project-card-icon"><i class="fas fa-film"></i></div>
+                        <a href="https://github.com/usernamejaggi" target="_blank" rel="noopener" class="project-card-link" title="View Source"><i class="fab fa-github"></i></a>
+                    </div>
+                    <h3>GemFlix — AI Movie Discovery</h3>
+                    <p>AI-driven movie discovery with <strong>natural language search</strong>
+                    powered by Google Generative AI. Personalized recommendations,
+                    multilingual support, and Firebase auth with Google OAuth.</p>
+                    <div class="project-stack">
+                        <span>Google Gen AI</span><span>React</span><span>Redux</span><span>Firebase</span><span>Tailwind</span>
+                    </div>
+                </div>
+                <div class="project-card" data-animate="fade-up" data-delay="200">
+                    <div class="project-card-top">
+                        <div class="project-card-icon"><i class="fas fa-tshirt"></i></div>
+                        <a href="https://github.com/usernamejaggi" target="_blank" rel="noopener" class="project-card-link" title="View Source"><i class="fab fa-github"></i></a>
+                    </div>
+                    <h3>Vastra AI — Fashion Intelligence</h3>
+                    <p>AI-powered fashion platform transforming creative ideas into
+                    tangible concepts using ML algorithms for intelligent design
+                    suggestions and personalized styling recommendations.</p>
+                    <div class="project-stack">
+                        <span>Python</span><span>Machine Learning</span><span>AI</span><span>GitHub</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ACHIEVEMENTS ==================== -->
+    <section class="section" id="achievements">
+        <div class="container">
+            <div class="section-label" data-animate="fade-up">
+                <span class="section-num">05</span>
+                <span class="section-name">Achievements</span>
+                <span class="section-rule"></span>
+            </div>
+            <div class="achievements-grid">
+                <div class="ach-card" data-animate="fade-up" data-delay="0">
+                    <div class="ach-icon ach-codechef"><i class="fas fa-code"></i></div>
+                    <div class="ach-body">
+                        <h3>CodeChef</h3>
+                        <div class="ach-stat">250<span>+</span></div>
+                        <p>Problems solved · <strong>150+ day streak</strong></p>
+                    </div>
+                    <a href="https://www.codechef.com/users/xjaggix" target="_blank" rel="noopener" class="ach-link-btn magnetic">
+                        <span>View Profile</span>
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 10L10 4M10 4H5M10 4V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+                <div class="ach-card" data-animate="fade-up" data-delay="100">
+                    <div class="ach-icon ach-hackerrank"><i class="fab fa-hackerrank"></i></div>
+                    <div class="ach-body">
+                        <h3>HackerRank</h3>
+                        <div class="ach-stat">5<span>★</span></div>
+                        <p><strong>5-Star Java</strong> · <strong>3-Star C++</strong></p>
+                    </div>
+                    <a href="https://www.hackerrank.com/profile/nikhiljaggioffi1" target="_blank" rel="noopener" class="ach-link-btn magnetic">
+                        <span>View Profile</span>
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 10L10 4M10 4H5M10 4V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+                <div class="ach-card" data-animate="fade-up" data-delay="200">
+                    <div class="ach-icon ach-hack"><i class="fas fa-laptop-code"></i></div>
+                    <div class="ach-body">
+                        <h3>Hackathons</h3>
+                        <div class="ach-stat">SIH</div>
+                        <p><strong>InnovateX</strong> · <strong>Smart India Hackathon</strong></p>
+                    </div>
+                    <a href="https://www.sih.gov.in/" target="_blank" rel="noopener" class="ach-link-btn magnetic">
+                        <span>Learn More</span>
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 10L10 4M10 4H5M10 4V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+                <div class="ach-card" data-animate="fade-up" data-delay="300">
+                    <div class="ach-icon ach-teach"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <div class="ach-body">
+                        <h3>Global Educator</h3>
+                        <div class="ach-stat">300<span>+</span></div>
+                        <p>Live classes taught <strong>across the globe</strong></p>
+                    </div>
+                    <a href="http://www.linkedin.com/in/nikhiljaggi" target="_blank" rel="noopener" class="ach-link-btn magnetic">
+                        <span>See More</span>
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 10L10 4M10 4H5M10 4V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== EDUCATION & CERTS ==================== -->
+    <section class="section" id="education">
+        <div class="container">
+            <div class="section-label" data-animate="fade-up">
+                <span class="section-num">06</span>
+                <span class="section-name">Education & Certifications</span>
+                <span class="section-rule"></span>
+            </div>
+            <div class="edu-timeline">
+                <div class="edu-item edu-primary" data-animate="fade-up">
+                    <div class="edu-marker"><div class="edu-marker-dot"></div></div>
+                    <div class="edu-card">
+                        <span class="edu-date">2023 — Present</span>
+                        <h3>Bachelor of Technology</h3>
+                        <h4>Computer Science & Engineering</h4>
+                        <p class="edu-inst"><i class="fas fa-university"></i> Lovely Professional University, Punjab</p>
+                        <div class="edu-badge"><strong></strong></div>
+                    </div>
+                </div>
+                <div class="edu-item" data-animate="fade-up" data-delay="100">
+                    <div class="edu-marker"><div class="edu-marker-dot"></div></div>
+                    <div class="edu-card">
+                        <span class="edu-date">2017 — 2018</span>
+                        <h3>Intermediate (12th)</h3>
+                        <h4>PCM — Science Stream</h4>
+                        <p class="edu-inst"><i class="fas fa-school"></i> Govt. Model Hr. Sec. School, Kathua</p>
+                        <div class="edu-badge">Score: <strong>83.4%</strong></div>
+                    </div>
+                </div>
+                <div class="edu-item" data-animate="fade-up" data-delay="200">
+                    <div class="edu-marker"><div class="edu-marker-dot"></div></div>
+                    <div class="edu-card">
+                        <span class="edu-date">2015 — 2016</span>
+                        <h3>Matriculation (10th)</h3>
+                        <h4>State Board</h4>
+                        <p class="edu-inst"><i class="fas fa-school"></i> Govt. Model Hr. Sec. School, Kathua</p>
+                        <div class="edu-badge">Score: <strong>85.2%</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="certs-row" data-animate="fade-up">
+                <h3 class="certs-title">
+                    <i class="fas fa-award"></i>
+                    Professional Certifications
+                </h3>
+                <div class="certs-list">
+                    <a href="https://www.freecodecamp.org/certification" target="_blank" rel="noopener" class="cert-item cert-item-link">
+                        <div class="cert-icon-wrap"><i class="fab fa-free-code-camp"></i></div>
+                        <div class="cert-info">
+                            <strong>Responsive Web Design</strong>
+                            <span>FreeCodeCamp</span>
+                        </div>
+                        <div class="cert-badge">
+                            <span class="cert-verified"><i class="fas fa-check-circle"></i> Verified</span>
+                            <svg class="cert-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                    </a>
+                    <a href="https://infyspringboard.onwingspan.com" target="_blank" rel="noopener" class="cert-item cert-item-link">
+                        <div class="cert-icon-wrap cert-icon-infosys"><i class="fas fa-building"></i></div>
+                        <div class="cert-info">
+                            <strong>Introduction to Python</strong>
+                            <span>Infosys Springboard</span>
+                        </div>
+                        <div class="cert-badge">
+                            <span class="cert-verified"><i class="fas fa-check-circle"></i> Verified</span>
+                            <svg class="cert-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                    </a>
+                    <a href="https://www.coursera.org/account/accomplishments" target="_blank" rel="noopener" class="cert-item cert-item-link">
+                        <div class="cert-icon-wrap cert-icon-coursera"><i class="fas fa-play-circle"></i></div>
+                        <div class="cert-info">
+                            <strong>Software Engineering: Implementation & Testing</strong>
+                            <span>Coursera · Hong Kong UST</span>
+                        </div>
+                        <div class="cert-badge">
+                            <span class="cert-verified"><i class="fas fa-check-circle"></i> Verified</span>
+                            <svg class="cert-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT ==================== -->
+    <section class="section section-dark" id="contact">
+        <div class="container">
+            <div class="section-label" data-animate="fade-up">
+                <span class="section-num">07</span>
+                <span class="section-name">Contact</span>
+                <span class="section-rule"></span>
+            </div>
+            <div class="contact-hero" data-animate="fade-up">
+                <h2>Let's build something <span class="text-shimmer">extraordinary</span> together.</h2>
+                <p>Open for AI/ML roles, research collaborations, and ambitious projects.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-links" data-animate="fade-right">
+                    <a href="mailto:nikhiljaggiofficial@gmail.com" class="contact-row">
+                        <div class="contact-row-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-row-info">
+                            <span class="contact-row-label">Email</span>
+                            <span class="contact-row-value">nikhiljaggiofficial@gmail.com</span>
+                        </div>
+                        <svg class="contact-row-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6 14L14 6M14 6H8M14 6V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="tel:+919320613596" class="contact-row">
+                        <div class="contact-row-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div class="contact-row-info">
+                            <span class="contact-row-label">Phone</span>
+                            <span class="contact-row-value">+91 93206 13596</span>
+                        </div>
+                        <svg class="contact-row-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6 14L14 6M14 6H8M14 6V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="http://www.linkedin.com/in/nikhiljaggi" target="_blank" rel="noopener" class="contact-row">
+                        <div class="contact-row-icon"><i class="fab fa-linkedin-in"></i></div>
+                        <div class="contact-row-info">
+                            <span class="contact-row-label">LinkedIn</span>
+                            <span class="contact-row-value">linkedin.com/in/nikhiljaggi</span>
+                        </div>
+                        <svg class="contact-row-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6 14L14 6M14 6H8M14 6V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="https://github.com/usernamejaggi" target="_blank" rel="noopener" class="contact-row">
+                        <div class="contact-row-icon"><i class="fab fa-github"></i></div>
+                        <div class="contact-row-info">
+                            <span class="contact-row-label">GitHub</span>
+                            <span class="contact-row-value">github.com/usernamejaggi</span>
+                        </div>
+                        <svg class="contact-row-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6 14L14 6M14 6H8M14 6V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+                <div class="contact-form-wrap" data-animate="fade-left">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-field">
+                            <input type="text" id="name" name="name" required placeholder=" ">
+                            <label for="name">Your Name</label>
+                        </div>
+                        <div class="form-field">
+                            <input type="email" id="email" name="email" required placeholder=" ">
+                            <label for="email">Your Email</label>
+                        </div>
+                        <div class="form-field">
+                            <textarea id="message" name="message" rows="4" required placeholder=" "></textarea>
+                            <label for="message">Your Message</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full magnetic">
+                            <span>Send Message</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8l5.5-5.5M2 8l5.5 5.5M2 8h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="rotate(-45, 8, 8)"/></svg>
+                        </button>
+                    </form>
+                    <div class="form-success" id="formSuccess">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2"/><path d="M15 24l6 6 12-12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <p>Message sent! I'll get back to you soon.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-mark">NJ</div>
+                        <span>Nikhil Jaggi</span>
+                    </div>
+                    <p>Building intelligent systems that matter.</p>
+                </div>
+                <div class="footer-nav">
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/usernamejaggi" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="http://www.linkedin.com/in/nikhiljaggi" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.codechef.com/users/xjaggix" target="_blank" rel="noopener" aria-label="CodeChef"><i class="fas fa-code"></i></a>
+                    <a href="https://www.hackerrank.com/profile/nikhiljaggioffi1" target="_blank" rel="noopener" aria-label="HackerRank"><i class="fab fa-hackerrank"></i></a>
+                    <a href="mailto:nikhiljaggiofficial@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Designed & Built by <strong>Nikhil Jaggi</strong> &copy; 2026</p>
+                <p class="footer-tagline">Crafted with precision. Shipped with passion.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 14V4M9 4L4 9M9 4l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
