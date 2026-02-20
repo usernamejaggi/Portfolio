@@ -998,6 +998,8 @@ html { scrollbar-width: thin; scrollbar-color: rgba(129,140,248,0.2) var(--bg); 
     transition: transform 0.3s var(--ease);
 }
 .mobile-fab:hover { transform: scale(1.1); }
+.mobile-fab.visible { display: flex; }
+
 /* ==================== ABOUT ==================== */
 .about-grid {
     display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(40px, 6vw, 80px); align-items: start;
@@ -2291,7 +2293,45 @@ html { scrollbar-width: thin; scrollbar-color: rgba(129,140,248,0.2) var(--bg); 
     .section { padding: 20px 0; }
     [data-animate] { opacity: 1 !important; transform: none !important; }
 }
-.mobile-fab.visible { display: flex; }
+
+/* ============================================================
+   CHAMBER / ROOM SYSTEM — DESCENDING INTO ROOMS (DISABLED)
+   The portfolio now uses lightweight, stable animations only.
+   ============================================================ */
+
+/* Disable snap scrolling + chamber transforms/doorways/ambient particles */
+html { scroll-snap-type: none !important; scroll-padding-top: 100px !important; }
+section.chamber, .hero {
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
+}
+
+.chamber,
+.chamber.in-view,
+.hero,
+.hero.in-view,
+.doorway,
+.doorway.in-view,
+.room-ambient,
+.room-mini-nikhil,
+.depth-indicator,
+.doorway-walker {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+/* Hide room/chamber UI elements completely */
+.chamber::before,
+.chamber::after,
+.doorway,
+.room-ambient,
+.room-mini-nikhil,
+.depth-indicator {
+    display: none !important;
+}
 
 /* ==================== BACK TO TOP ==================== */
 .back-to-top {
@@ -2307,6 +2347,12 @@ html { scrollbar-width: thin; scrollbar-color: rgba(129,140,248,0.2) var(--bg); 
 .back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
 .back-to-top:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); background: rgba(129,140,248,0.08); }
 [data-theme="light"] .back-to-top { background: rgba(248,247,252,0.9); }
+
+/* ==================== ANIMATION SYSTEM ==================== */
+[data-animate] { opacity: 0; transform: translateY(20px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+[data-animate="fade-left"] { transform: translateX(30px); }
+[data-animate="fade-right"] { transform: translateX(-30px); }
+[data-animate].animated { opacity: 1; transform: translate(0); }
 
 /* ==================== SPARKLE EFFECT ==================== */
 .sparkle {
@@ -2335,6 +2381,17 @@ html { scrollbar-width: thin; scrollbar-color: rgba(129,140,248,0.2) var(--bg); 
 .easter-egg-toast.visible, .network-toast.visible {
     opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto;
 }
+
+/* ==================== MOBILE FAB ==================== */
+.mobile-fab {
+    display: none; position: fixed; bottom: 20px; right: 20px; z-index: 998;
+    width: 50px; height: 50px; border-radius: 50%;
+    background: var(--gradient); color: #fff; border: none;
+    align-items: center; justify-content: center; font-size: 1.1rem;
+    box-shadow: 0 4px 20px rgba(129,140,248,0.4); cursor: pointer;
+    transition: transform 0.3s var(--ease);
+}
+.mobile-fab:hover { transform: scale(1.1); }
 
 /* ==================== LIGHT THEME ==================== */
 [data-theme="light"] {
@@ -2365,293 +2422,534 @@ html { scrollbar-width: thin; scrollbar-color: rgba(129,140,248,0.2) var(--bg); 
 [data-theme="light"] .mascot-speech { background: rgba(248,247,252,0.95); border-color: rgba(0,0,0,0.08); }
 [data-theme="light"] .mascot-speech::after { border-top-color: rgba(248,247,252,0.95); }
 
-/* ==================== BUTTER-SMOOTH SCROLL ANIMATIONS ==================== */
-/* Horizontal slides · 3D depth · Staggered reveals */
-/* No snap scroll · No broken chamber system */
-
-/* --- BASE: Everything visible by default, animate on scroll --- */
-html {
-    scroll-snap-type: none !important;
-    scroll-behavior: smooth;
-    scroll-padding-top: 100px;
-}
-
-/* --- HERO ENTRANCE --- */
-.hero .hero-text > * {
+/* ==================== MINI ME — NIKHIL BOT ==================== */
+.nikhil-bot {
+    position: fixed;
+    left: 24px;
+    top: 50%;
+    z-index: 997;
+    pointer-events: none;
     opacity: 0;
-    transform: translateY(30px);
-    animation: heroSlideUp 0.9s var(--ease-bounce) forwards;
+    transform: translateY(-50%) scale(0);
+    transition: opacity 0.6s var(--ease-bounce), transform 0.6s var(--ease-bounce);
 }
-.hero-badge          { animation-delay: 0.3s; }
-.hero-title          { animation-delay: 0.5s; }
-.hero-terminal       { animation-delay: 0.65s; }
-.hero-tagline        { animation-delay: 0.75s; }
-.hero-desc           { animation-delay: 0.85s; }
-.hero-cta            { animation-delay: 0.95s; }
-.hero-stats          { animation-delay: 1.1s; }
-
-@keyframes heroSlideUp {
-    0%   { opacity: 0; transform: translateY(30px); }
-    100% { opacity: 1; transform: translateY(0); }
+.nikhil-bot.visible {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+    pointer-events: auto;
+}
+.nikhil-bot.walking {
+    animation: botWalk 0.4s ease-in-out infinite;
+}
+@keyframes botWalk {
+    0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); }
+    25% { transform: translateY(-50%) scale(1) rotate(-3deg) translateX(-2px); }
+    75% { transform: translateY(-50%) scale(1) rotate(3deg) translateX(2px); }
+}
+.nikhil-bot.celebrating {
+    animation: botCelebrate 0.5s var(--ease-bounce) infinite;
+}
+@keyframes botCelebrate {
+    0%, 100% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(calc(-50% - 10px)) scale(1.1); }
+}
+.nikhil-bot.thinking {
+    animation: botThink 1.5s ease-in-out infinite;
+}
+@keyframes botThink {
+    0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); }
+    25% { transform: translateY(-50%) scale(1) rotate(-5deg); }
+    50% { transform: translateY(-50%) scale(1) rotate(0deg); }
+    75% { transform: translateY(-50%) scale(1) rotate(5deg); }
+}
+.nikhil-bot.waving .bot-arm-right {
+    animation: armWave 0.5s var(--ease-bounce) infinite;
+}
+@keyframes armWave {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-45deg); }
+}
+.nikhil-bot.typing .bot-arm-left,
+.nikhil-bot.typing .bot-arm-right {
+    animation: armType 0.3s ease-in-out infinite alternate;
+}
+@keyframes armType {
+    0% { transform: rotate(0deg) translateY(0); }
+    100% { transform: rotate(-8deg) translateY(-3px); }
+}
+.nikhil-bot.dancing {
+    animation: botDance 0.6s var(--ease-bounce) infinite;
+}
+@keyframes botDance {
+    0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); }
+    25% { transform: translateY(calc(-50% - 6px)) scale(1.05) rotate(-8deg); }
+    50% { transform: translateY(-50%) scale(1) rotate(0deg); }
+    75% { transform: translateY(calc(-50% - 6px)) scale(1.05) rotate(8deg); }
+}
+.nikhil-bot.sleeping {
+    animation: botSleep 2s ease-in-out infinite;
+}
+@keyframes botSleep {
+    0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); }
+    50% { transform: translateY(-50%) scale(0.95) rotate(5deg); }
+}
+.nikhil-bot.flexing .bot-arm-right {
+    animation: armFlex 0.8s var(--ease-bounce) infinite;
+}
+.nikhil-bot.flexing .bot-arm-left {
+    animation: armFlex 0.8s var(--ease-bounce) 0.2s infinite;
+}
+@keyframes armFlex {
+    0%, 100% { transform: rotate(0deg) scaleY(1); }
+    50% { transform: rotate(-30deg) scaleY(1.15); }
+}
+.nikhil-bot.writing {
+    animation: botWriteShake 0.3s ease-in-out infinite;
+}
+@keyframes botWriteShake {
+    0%, 100% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1) translateX(2px); }
 }
 
-.hero-visual {
+.bot-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Avatar */
+.bot-avatar {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: visible;
+    z-index: 2;
+}
+.bot-face {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 2px solid rgba(129,140,248,0.5);
+    box-shadow: 0 0 12px rgba(129,140,248,0.3), 0 2px 8px rgba(0,0,0,0.4);
+    transition: border-color 0.3s var(--ease);
+}
+.nikhil-bot:hover .bot-face {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(129,140,248,0.5), 0 2px 12px rgba(0,0,0,0.4);
+}
+.bot-glasses {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 8px;
+    pointer-events: none;
+    display: none; /* hidden, using real face */
+}
+
+/* Antenna */
+.nikhil-bot .bot-antenna {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 8px;
+    background: rgba(129,140,248,0.5);
+    border-radius: 1px;
+}
+.nikhil-bot .bot-antenna-ball {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--cyan);
+    position: absolute;
+    top: -3px;
+    left: -1.5px;
+    box-shadow: 0 0 6px rgba(34,211,238,0.7);
+    animation: antennaPulse 2s ease-in-out infinite;
+}
+
+/* Body */
+.bot-body {
+    width: 26px;
+    height: 14px;
+    background: linear-gradient(135deg, rgba(129,140,248,0.2), rgba(192,132,252,0.15));
+    border-radius: 0 0 8px 8px;
+    margin-top: -2px;
+    position: relative;
+    border: 1px solid rgba(129,140,248,0.15);
+    border-top: none;
+}
+
+/* Arms */
+.bot-arm {
+    position: absolute;
+    width: 3px;
+    height: 10px;
+    background: rgba(129,140,248,0.3);
+    border-radius: 2px;
+    top: 0;
+    transform-origin: top center;
+    transition: transform 0.3s var(--ease);
+}
+.bot-arm-left { left: -5px; }
+.bot-arm-right { right: -5px; }
+
+/* Action Icon — floats near the bot */
+.bot-action-icon {
+    position: absolute;
+    top: -6px;
+    right: -14px;
+    font-size: 0.65rem;
     opacity: 0;
-    animation: heroPhotoIn 1.1s var(--ease-bounce) 0.4s forwards;
+    transform: scale(0) translateY(4px);
+    transition: all 0.4s var(--ease-bounce);
+    pointer-events: none;
+    z-index: 3;
+    filter: drop-shadow(0 0 4px rgba(129,140,248,0.5));
 }
-@keyframes heroPhotoIn {
-    0%   { opacity: 0; transform: scale(0.8) translateY(40px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
+.bot-action-icon.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
 }
 
-.photo-badge {
+/* Speech Bubble */
+.bot-speech {
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%) translateX(-6px);
+    white-space: nowrap;
+    padding: 5px 12px;
+    border-radius: var(--radius-full);
+    background: rgba(3,0,20,0.88);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(129,140,248,0.2);
+    font-size: 0.62rem;
+    font-weight: 500;
+    color: var(--text-2);
     opacity: 0;
-    animation: badgePop 0.6s var(--ease-bounce) forwards;
+    transition: all 0.4s var(--ease-bounce);
+    pointer-events: none;
+    z-index: 4;
 }
-.photo-badge-1 { animation-delay: 1.4s; }
-.photo-badge-2 { animation-delay: 1.55s; }
-.photo-badge-3 { animation-delay: 1.7s; }
-.photo-badge-4 { animation-delay: 1.85s; }
-.photo-badge-5 { animation-delay: 2.0s; }
-.photo-badge-6 { animation-delay: 2.15s; }
-@keyframes badgePop {
-    0%   { opacity: 0; transform: scale(0); }
-    100% { opacity: 1; transform: scale(1); }
+.bot-speech.visible {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+.bot-speech::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-right-color: rgba(3,0,20,0.88);
+}
+[data-theme="light"] .bot-speech {
+    background: rgba(248,247,252,0.95);
+    border-color: rgba(0,0,0,0.08);
+}
+[data-theme="light"] .bot-speech::before {
+    border-right-color: rgba(248,247,252,0.95);
 }
 
-/* --- SCROLL REVEAL BASE CLASSES --- */
-/* Elements start hidden, JS adds .in-view to trigger */
+/* Z-Z-Z floating for sleep mode */
+.bot-zzz {
+    position: absolute;
+    top: -4px;
+    right: -18px;
+    font-size: 0.55rem;
+    font-weight: 800;
+    color: var(--accent);
+    opacity: 0;
+    animation: zzzFloat 2s ease-in-out infinite;
+    pointer-events: none;
+}
+.bot-zzz:nth-child(2) { animation-delay: 0.5s; right: -10px; top: -10px; font-size: 0.45rem; }
+.bot-zzz:nth-child(3) { animation-delay: 1s; right: -22px; top: -2px; font-size: 0.4rem; }
+@keyframes zzzFloat {
+    0% { opacity: 0; transform: translateY(0) scale(0.7); }
+    30% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-18px) scale(1); }
+}
 
-[data-reveal] {
+/* Sweat drops for working hard */
+.bot-sweat {
+    position: absolute;
+    width: 3px;
+    height: 5px;
+    background: var(--cyan);
+    border-radius: 0 0 50% 50%;
+    opacity: 0;
+    pointer-events: none;
+}
+.nikhil-bot.typing .bot-sweat,
+.nikhil-bot.writing .bot-sweat {
+    animation: sweatDrop 1s ease-in-out infinite;
+}
+@keyframes sweatDrop {
+    0% { opacity: 0; transform: translateY(0); }
+    20% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(12px); }
+}
+.bot-sweat-1 { top: 8px; right: -4px; animation-delay: 0s; }
+.bot-sweat-2 { top: 4px; right: -8px; animation-delay: 0.4s; }
+
+/* Heart burst for contact section */
+.bot-hearts {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 3px;
+    pointer-events: none;
+    opacity: 0;
+}
+.nikhil-bot.loving .bot-hearts { opacity: 1; }
+.bot-hearts span {
+    font-size: 0.55rem;
+    animation: heartBurst 1s var(--ease-bounce) infinite;
+}
+.bot-hearts span:nth-child(1) { animation-delay: 0s; }
+.bot-hearts span:nth-child(2) { animation-delay: 0.2s; }
+.bot-hearts span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes heartBurst {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
+    50% { transform: translateY(-10px) scale(1.3); opacity: 1; }
+}
+
+/* Trail particles behind bot while moving */
+.bot-trail {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    pointer-events: none;
+    z-index: 996;
+    opacity: 0;
+    animation: trailFade 0.6s var(--ease) forwards;
+}
+@keyframes trailFade {
+    0% { opacity: 0.6; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0); }
+}
+
+/* Hide on mobile */
+@media (max-width: 768px) {
+    .nikhil-bot { display: none !important; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .nikhil-bot { display: none !important; }
+}
+
+/* ============================================================
+   GOD-LEVEL EFFECTS V2 — CHROMATIC | PARTICLES | SHOCKWAVE
+   ============================================================ */
+
+/* ==================== CHROMATIC ABERRATION LAYER ==================== */
+.chromatic-aberration-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 9995;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s linear;
+    mix-blend-mode: screen;
+    background:
+        linear-gradient(0deg,
+            rgba(255, 0, 0, 0.03) 0%,
+            transparent 33%,
+            rgba(0, 255, 0, 0.02) 33%,
+            transparent 66%,
+            rgba(0, 100, 255, 0.03) 66%,
+            transparent 100%
+        );
+    background-size: 100% calc(3px + var(--chroma-spread, 0px));
+    animation: chromaScan 0.08s linear infinite;
+}
+@keyframes chromaScan {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 calc(3px + var(--chroma-spread, 0px)); }
+}
+
+/* ==================== CLICK SHOCKWAVE ==================== */
+.click-shockwave {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid rgba(129, 140, 248, 0.6);
+    pointer-events: none;
+    z-index: 9997;
+    transform: translate(-50%, -50%);
+    animation: shockwaveExpand 0.6s var(--ease-out) forwards;
+}
+@keyframes shockwaveExpand {
+    0% {
+        width: 10px;
+        height: 10px;
+        opacity: 1;
+        border-width: 2px;
+    }
+    100% {
+        width: 200px;
+        height: 200px;
+        opacity: 0;
+        border-width: 0.5px;
+    }
+}
+
+/* ==================== CLICK PARTICLES ==================== */
+.click-particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9997;
+    transform: translate(-50%, -50%);
+    animation: clickParticleFly 0.55s var(--ease-out) forwards;
+    box-shadow: 0 0 6px currentColor;
+}
+@keyframes clickParticleFly {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) translate(0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(0.2);
+    }
+}
+
+/* ==================== AURORA CURSOR TRAIL ==================== */
+.cursor-aurora-trail {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9994;
+}
+.aurora-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: var(--accent);
     opacity: 0;
     will-change: transform, opacity;
-    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease-bounce);
+    filter: blur(2px);
+    mix-blend-mode: screen;
+    transition: none;
 }
-[data-reveal].in-view {
+.aurora-dot:nth-child(odd) {
+    background: var(--purple);
+}
+.aurora-dot:nth-child(3n) {
+    background: var(--cyan);
+}
+.aurora-dot:nth-child(4n) {
+    background: var(--emerald);
+    width: 6px;
+    height: 6px;
+}
+
+/* ==================== COUNTER SPARK EXPLOSION ==================== */
+.counter-spark {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    pointer-events: none;
+    z-index: 9997;
+    transform: translate(-50%, -50%);
+    animation: counterSparkFly 0.65s var(--ease-out) forwards;
+    box-shadow: 0 0 8px var(--accent);
+}
+.counter-spark:nth-child(odd) {
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+}
+.counter-spark:nth-child(3n) {
+    background: var(--purple);
+    box-shadow: 0 0 8px var(--purple);
+}
+@keyframes counterSparkFly {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) translate(0, 0) scale(1);
+    }
+    60% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translate(var(--spark-x), var(--spark-y)) scale(0);
+    }
+}
+
+/* ==================== SECTION ATMOSPHERE OVERLAY ==================== */
+.section-atmosphere {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    transition: background 0.8s var(--ease);
     opacity: 1;
-    transform: none !important;
 }
 
-/* Slide from left (horizontal) */
-[data-reveal="slide-left"] {
-    transform: translateX(-80px) rotateY(8deg);
+/* ==================== SECTION TITLE GLOW ON ENTER ==================== */
+.section-title.glow-entered {
+    animation: titleGlowPulse 1.2s ease-out forwards;
 }
-/* Slide from right (horizontal) */
-[data-reveal="slide-right"] {
-    transform: translateX(80px) rotateY(-8deg);
-}
-/* Slide up */
-[data-reveal="slide-up"] {
-    transform: translateY(60px);
-}
-/* Scale + rotate 3D */
-[data-reveal="zoom-3d"] {
-    transform: perspective(1200px) rotateX(12deg) translateZ(-60px) scale(0.92);
-}
-/* Flip in */
-[data-reveal="flip"] {
-    transform: perspective(1000px) rotateY(25deg) translateX(-40px);
-}
-
-/* --- SECTION HEADERS — always reveal with fade-up --- */
-.section-header {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease-bounce);
-}
-.section-header.in-view {
-    opacity: 1;
-    transform: translateY(0);
+@keyframes titleGlowPulse {
+    0% {
+        text-shadow: 0 0 0 transparent;
+        filter: brightness(1);
+    }
+    30% {
+        text-shadow:
+            0 0 20px rgba(129, 140, 248, 0.4),
+            0 0 40px rgba(192, 132, 252, 0.2),
+            0 0 60px rgba(34, 211, 238, 0.1);
+        filter: brightness(1.2);
+    }
+    100% {
+        text-shadow: 0 0 0 transparent;
+        filter: brightness(1);
+    }
 }
 
-/* --- ABOUT SECTION — horizontal slide --- */
-.about-left {
-    opacity: 0;
-    transform: translateX(-70px) rotateY(6deg);
-    transition: all 1s var(--ease-bounce);
-}
-.about-left.in-view {
-    opacity: 1;
-    transform: translateX(0) rotateY(0);
-}
-.about-right {
-    opacity: 0;
-    transform: translateX(70px) rotateY(-6deg);
-    transition: all 1s var(--ease-bounce) 0.15s;
-}
-.about-right.in-view {
-    opacity: 1;
-    transform: translateX(0) rotateY(0);
+/* ==================== VELOCITY BURST CANVAS ==================== */
+.velocity-burst-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9996;
 }
 
-/* --- VALUE CARDS — staggered 3D pop --- */
-.value-card {
-    opacity: 0;
-    transform: perspective(800px) rotateX(10deg) translateY(40px) scale(0.95);
-    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease-bounce);
-}
-.value-card.in-view { opacity: 1; transform: none; }
-.value-card:nth-child(1) { transition-delay: 0.05s; }
-.value-card:nth-child(2) { transition-delay: 0.12s; }
-.value-card:nth-child(3) { transition-delay: 0.19s; }
-.value-card:nth-child(4) { transition-delay: 0.26s; }
-
-/* --- SKILL CARDS — horizontal alternating --- */
-.skill-card {
-    opacity: 0;
-    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease-bounce);
-}
-.skill-card:nth-child(odd) {
-    transform: translateX(-60px) rotateY(5deg);
-}
-.skill-card:nth-child(even) {
-    transform: translateX(60px) rotateY(-5deg);
-}
-.skill-card.in-view {
-    opacity: 1;
-    transform: translateX(0) rotateY(0);
-}
-.skill-card:nth-child(1) { transition-delay: 0.05s; }
-.skill-card:nth-child(2) { transition-delay: 0.12s; }
-.skill-card:nth-child(3) { transition-delay: 0.19s; }
-.skill-card:nth-child(4) { transition-delay: 0.26s; }
-
-/* --- EXPERIENCE CARDS — slide from left with 3D --- */
-.exp-card {
-    opacity: 0;
-    transform: translateX(-80px) perspective(900px) rotateY(10deg);
-    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease-bounce);
-}
-.exp-card.in-view {
-    opacity: 1;
-    transform: translateX(0) perspective(900px) rotateY(0);
-}
-.exp-card:nth-child(1) { transition-delay: 0.1s; }
-.exp-card:nth-child(2) { transition-delay: 0.22s; }
-.exp-card:nth-child(3) { transition-delay: 0.34s; }
-
-/* --- PROJECTS — 3D depth reveal --- */
-.project-featured {
-    opacity: 0;
-    transform: perspective(1200px) rotateX(8deg) translateZ(-50px) scale(0.94);
-    transition: all 1s var(--ease-bounce);
-}
-.project-featured.in-view {
-    opacity: 1;
-    transform: perspective(1200px) rotateX(0) translateZ(0) scale(1);
+/* ==================== SCROLL VELOCITY REACTIVE BODY ==================== */
+body {
+    --scroll-skew: 0deg;
+    --scroll-velocity: 0;
+    --scroll-squeeze: 1;
 }
 
-.project-card {
-    opacity: 0;
-    transform: translateY(50px) scale(0.96);
-    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease-bounce);
-}
-.project-card.in-view {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-}
-.project-card:nth-child(1) { transition-delay: 0.08s; }
-.project-card:nth-child(2) { transition-delay: 0.16s; }
-.project-card:nth-child(3) { transition-delay: 0.24s; }
-.project-card:nth-child(4) { transition-delay: 0.32s; }
-
-/* --- ACHIEVEMENT CARDS — flip in from sides --- */
-.ach-card {
-    opacity: 0;
-    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease-bounce);
-}
-.ach-card:nth-child(odd) {
-    transform: translateX(-50px) perspective(800px) rotateY(12deg);
-}
-.ach-card:nth-child(even) {
-    transform: translateX(50px) perspective(800px) rotateY(-12deg);
-}
-.ach-card.in-view {
-    opacity: 1;
-    transform: translateX(0) perspective(800px) rotateY(0);
-}
-.ach-card:nth-child(1) { transition-delay: 0.05s; }
-.ach-card:nth-child(2) { transition-delay: 0.13s; }
-.ach-card:nth-child(3) { transition-delay: 0.21s; }
-.ach-card:nth-child(4) { transition-delay: 0.29s; }
-.ach-card:nth-child(5) { transition-delay: 0.37s; }
-.ach-card:nth-child(6) { transition-delay: 0.45s; }
-
-/* --- EDUCATION ITEMS — slide from left --- */
-.edu-item {
-    opacity: 0;
-    transform: translateX(-60px);
-    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease-bounce);
-}
-.edu-item.in-view {
-    opacity: 1;
-    transform: translateX(0);
-}
-.edu-item:nth-child(1) { transition-delay: 0.08s; }
-.edu-item:nth-child(2) { transition-delay: 0.18s; }
-.edu-item:nth-child(3) { transition-delay: 0.28s; }
-
-/* --- CONTACT — horizontal slide from each side --- */
-.contact-links {
-    opacity: 0;
-    transform: translateX(-70px);
-    transition: all 0.9s var(--ease-bounce);
-}
-.contact-links.in-view {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.contact-form {
-    opacity: 0;
-    transform: translateX(70px);
-    transition: all 0.9s var(--ease-bounce) 0.1s;
-}
-.contact-form.in-view {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.contact-row {
-    opacity: 0;
-    transform: translateX(-30px);
-    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease-bounce);
-}
-.contact-row.in-view {
-    opacity: 1;
-    transform: translateX(0);
-}
-.contact-row:nth-child(1) { transition-delay: 0.05s; }
-.contact-row:nth-child(2) { transition-delay: 0.12s; }
-.contact-row:nth-child(3) { transition-delay: 0.19s; }
-.contact-row:nth-child(4) { transition-delay: 0.26s; }
-.contact-row:nth-child(5) { transition-delay: 0.33s; }
-
-/* --- CERT CARDS — stagger up --- */
-.cert-card {
-    opacity: 0;
-    transform: translateY(30px) scale(0.97);
-    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease-bounce);
-}
-.cert-card.in-view {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-}
-.cert-card:nth-child(1) { transition-delay: 0.05s; }
-.cert-card:nth-child(2) { transition-delay: 0.1s; }
-.cert-card:nth-child(3) { transition-delay: 0.15s; }
-.cert-card:nth-child(4) { transition-delay: 0.2s; }
-
-/* --- 3D TILT ON HOVER (all cards) --- */
-.value-card,
-.skill-card,
-.project-card,
-.ach-card,
-.cert-card,
-.edu-card-apple {
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-}
+/* ==================== ENHANCED HOVER EFFECTS ==================== */
 .value-card:hover,
 .skill-card:hover,
 .project-card:hover,
@@ -2660,117 +2958,928 @@ html {
 .edu-card-apple:hover {
     box-shadow:
         var(--shadow-card),
-        0 0 40px rgba(129,140,248,0.06),
-        inset 0 1px 0 rgba(255,255,255,0.04);
+        0 0 40px rgba(129, 140, 248, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-/* --- SECTION TITLE GLOW PULSE --- */
-.section-title.in-view {
-    animation: titleGlow 1.2s ease-out forwards;
-}
-@keyframes titleGlow {
-    0%   { text-shadow: 0 0 0 transparent; filter: brightness(1); }
-    30%  { text-shadow: 0 0 20px rgba(129,140,248,0.3), 0 0 40px rgba(192,132,252,0.15); filter: brightness(1.15); }
-    100% { text-shadow: 0 0 0 transparent; filter: brightness(1); }
-}
-
-/* --- SKILL BARS ANIMATION (triggered by .in-view) --- */
-.skill-bar-fill.in-view {
-    transition: width 1.4s var(--ease-bounce) 0.3s;
-}
-.skill-bar-fill.in-view::after {
-    opacity: 1;
+/* ==================== MOBILE: DISABLE HEAVY EFFECTS ==================== */
+@media (max-width: 768px) {
+    .chromatic-aberration-layer,
+    .velocity-burst-canvas,
+    .cursor-aurora-trail,
+    .click-shockwave,
+    .click-particle,
+    .counter-spark {
+        display: none !important;
+    }
+    .section-atmosphere {
+        opacity: 0.5;
+    }
 }
 
-/* --- MARQUEE STRIP REVEAL --- */
-.marquee-strip {
+/* ==================== REDUCED MOTION: DISABLE ALL GOD-LEVEL ==================== */
+@media (prefers-reduced-motion: reduce) {
+    .chromatic-aberration-layer,
+    .velocity-burst-canvas,
+    .cursor-aurora-trail,
+    .click-shockwave,
+    .click-particle,
+    .counter-spark,
+    .section-atmosphere {
+        display: none !important;
+    }
+    .section-title.glow-entered {
+        animation: none !important;
+    }
+}
+
+/* ============================================================
+   GOD-LEVEL EFFECTS V3 — IDLE | HOLOGRAM | KONAMI | DOORWAY
+   SOUNDWAVE | REPULSION | FOG | BREATHING | CHARACTER WAVE
+   ============================================================ */
+
+/* ==================== IDLE AMBIENT PARTICLES ==================== */
+.idle-particle {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
     opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.8s var(--ease);
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+    animation: idleParticleFloat 6s ease-in-out infinite;
 }
-.marquee-strip.in-view {
-    opacity: 1;
-    transform: translateY(0);
+.idle-particle:nth-child(odd) {
+    background: var(--purple);
+    box-shadow: 0 0 6px var(--purple);
+    width: 2px;
+    height: 2px;
+}
+.idle-particle:nth-child(3n) {
+    background: var(--cyan);
+    box-shadow: 0 0 6px var (--cyan);
+}
+@keyframes idleParticleFloat {
+    0% {
+        opacity: 0;
+        transform: translateY(0) translateX(0) scale(0.5);
+    }
+    15% {
+        opacity: 0.6;
+    }
+    85% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-80px) translateX(var(--idle-dx, 20px)) scale(0);
+    }
 }
 
-/* --- FOOTER REVEAL --- */
-.footer {
+/* ==================== HOLOGRAM FLICKER ON HERO PHOTO ==================== */
+.hero-photo.hologram-flicker {
+    animation: holoFlicker 0.15s steps(2) 3;
+}
+@keyframes holoFlicker {
+    0% { opacity: 1; filter: brightness(1) hue-rotate(0deg); }
+    25% { opacity: 0.7; filter: brightness(1.4) hue-rotate(10deg); }
+    50% { opacity: 0.9; filter: brightness(0.8) hue-rotate(-5deg); }
+    75% { opacity: 0.6; filter: brightness(1.6) hue-rotate(15deg); }
+    100% { opacity: 1; filter: brightness(1) hue-rotate(0deg); }
+}
+
+/* ==================== DOORWAY PORTAL RIPPLE ==================== */
+.doorway-portal-ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(129, 140, 248, 0.5);
+    pointer-events: none;
+    z-index: 10;
+    transform: translate(-50%, -50%);
+    animation: portalRippleExpand 1s var(--ease-out) forwards;
+}
+@keyframes portalRippleExpand {
+    0% {
+        width: 10px;
+        height: 10px;
+        opacity: 1;
+        border-width: 2px;
+    }
+    100% {
+        width: 250px;
+        height: 250px;
+        opacity: 0;
+        border-width: 0.5px;
+    }
+}
+
+/* ==================== ENERGY PULSE DOT ON SECTION LINES ==================== */
+.section-line {
+    position: relative;
+    overflow: visible;
+}
+.energy-pulse-dot {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent), 0 0 20px rgba(129, 140, 248, 0.3);
+    transform: translateY(-50%);
+    animation: energyPulseDotTravel 2.5s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes energyPulseDotTravel {
+    0% { left: -6px; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { left: calc(100% + 6px); opacity: 0; }
+}
+
+/* ==================== KONAMI CODE FLASH ==================== */
+.konami-flash {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    pointer-events: none;
+    background: white;
+    opacity: 0;
+    animation: konamiFlash 0.8s ease-out forwards;
+}
+@keyframes konamiFlash {
+    0% { opacity: 0; }
+    10% { opacity: 0.8; }
+    100% { opacity: 0; }
+}
+
+/* ==================== KONAMI FIREWORK ==================== */
+.konami-firework {
+    position: fixed;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10002;
+    transform: translate(-50%, -50%);
+    animation: konamiFireworkBurst 1.2s var(--ease-out) forwards;
+}
+@keyframes konamiFireworkBurst {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) translate(0, 0) scale(1);
+    }
+    40% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translate(var(--fw-x), var(--fw-y)) scale(0);
+    }
+}
+
+/* ============================================================
+   GOD-LEVEL EFFECTS V4 — HOLOGRAPHIC | CONSTELLATION | GLITCH
+   SOUNDWAVE | REPULSION | FOG | BREATHING | CHARACTER WAVE
+   ============================================================ */
+
+/* ==================== HOLOGRAPHIC RAINBOW SWEEP ==================== */
+.holo-rainbow-sweep {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(
+        circle at var(--holo-x, 50%) var(--holo-y, 50%),
+        rgba(255, 0, 0, 0.04) 0%,
+        rgba(255, 165, 0, 0.03) 15%,
+        rgba(255, 255, 0, 0.03) 30%,
+        rgba(0, 255, 0, 0.03) 45%,
+        rgba(0, 200, 255, 0.04) 60%,
+        rgba(130, 0, 255, 0.03) 75%,
+        transparent 90%
+    );
+    mix-blend-mode: screen;
+    border-radius: inherit;
+}
+
+/* ==================== BREATHING BACKGROUND PULSE ==================== */
+.breathing-bg-pulse {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
+    background: radial-gradient(
+        ellipse 80% 60% at 50% 50%,
+        rgba(129, 140, 248, 0.015) 0%,
+        transparent 70%
+    );
+    animation: breathingPulse 6s ease-in-out infinite;
+}
+@keyframes breathingPulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+/* ==================== VIEWPORT LIGHT SOURCE ==================== */
+.viewport-light-source {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition: background 0.1s linear;
+}
+
+/* ==================== CONSTELLATION CANVAS ==================== */
+.constellation-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+}
+
+/* ==================== GLITCH TRANSITION BAR ==================== */
+.glitch-transition-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    animation: glitchBarFlash 0.2s ease-out forwards;
+}
+@keyframes glitchBarFlash {
+    0% {
+        opacity: 0;
+        transform: scaleX(0.3) translateX(-20%);
+    }
+    30% {
+        opacity: 1;
+        transform: scaleX(1.2) translateX(5%);
+    }
+    60% {
+        opacity: 0.6;
+        transform: scaleX(0.8) translateX(-3%);
+    }
+    100% {
+        opacity: 0;
+        transform: scaleX(0) translateX(0);
+    }
+}
+
+/* ==================== SCROLL SOUNDWAVE ==================== */
+.scroll-soundwave {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    z-index: 9993;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* ==================== HERO CHARACTER WAVE ==================== */
+.hero-char-wave {
+    display: inline-block;
+    animation: heroCharWaveFloat 3s ease-in-out infinite;
+    animation-delay: calc(var(--char-i, 0) * 0.08s);
+}
+@keyframes heroCharWaveFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+/* ==================== SCROLL DEPTH FOG ==================== */
+.scroll-depth-fog {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.6s ease;
+}
+
+/* ==================== MOBILE: DISABLE V3/V4 HEAVY EFFECTS ==================== */
+@media (max-width: 768px) {
+    .idle-particle,
+    .doorway-portal-ripple,
+    .energy-pulse-dot,
+    .konami-flash,
+    .konami-firework,
+    .holo-rainbow-sweep,
+    .breathing-bg-pulse,
+    .viewport-light-source,
+    .constellation-canvas,
+    .glitch-transition-bar,
+    .scroll-soundwave,
+    .scroll-depth-fog {
+        display: none !important;
+    }
+    .hero-char-wave {
+        animation: none !important;
+    }
+}
+
+/* ==================== REDUCED MOTION: DISABLE V3/V4 ==================== */
+@media (prefers-reduced-motion: reduce) {
+    .idle-particle,
+    .doorway-portal-ripple,
+    .energy-pulse-dot,
+    .konami-flash,
+    .konami-firework,
+    .holo-rainbow-sweep,
+    .breathing-bg-pulse,
+    .viewport-light-source,
+    .constellation-canvas,
+    .glitch-transition-bar,
+    .scroll-soundwave,
+    .scroll-depth-fog {
+        display: none !important;
+    }
+    .hero-char-wave {
+        animation: none !important;
+    }
+    .hero-photo.hologram-flicker {
+        animation: none !important;
+    }
+}
+
+/* ============================================================
+   FULLSCREEN SECTION SNAP SCROLL — PREMIUM SLIDE-IN CHAMBERS
+   Crystal-clear 3D depth animations, NO BLUR
+   ============================================================ */
+
+/* Snap scroll container — each section snaps into place */
+html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+    /* Smooth snap without jarring stops */
+    scroll-padding-top: 0;
+}
+
+/* ==================== SECTION SNAP BEHAVIOR ==================== */
+section.chamber {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hero is the first snap point */
+.hero {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+/* ==================== FULLSCREEN SECTION ENTRANCE ANIMATION ==================== */
+/* When a section enters viewport, it slides in with 3D depth */
+.chamber {
+    transform: perspective(1200px) rotateX(8deg) translateZ(-100px) translateY(60px);
+    opacity: 0;
+    filter: saturate(0.8);
+    transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.chamber.in-view {
+    transform: perspective(1200px) rotateX(0deg) translateZ(0) translateY(0);
+    opacity: 1;
+    filter: saturate(1);
+}
+
+/* Hero section enters from top with scale */
+.hero {
+    transform: perspective(1200px) rotateX(-6deg) scale(0.95) translateY(-80px);
+    opacity: 0;
+}
+
+.hero.in-view {
+    transform: perspective(1200px) rotateX(0deg) scale(1) translateY(0);
+    opacity: 1;
+}
+
+/* ==================== 3D ROOM DEPTH PERSPECTIVE ==================== */
+/* Each section appears deeper as you scroll */
+body {
+    perspective: 1000px;
+}
+
+.chamber {
+    position: relative;
+    /* Room parallax depth */
+    --depth-z: calc((var(--scroll-position, 0) - var(--section-top, 0)) * 0.1);
+}
+
+/* ==================== CRISP EDGE TRANSITIONS (NO BLUR) ==================== */
+/* Remove any motion blur effects on sections */
+.chamber {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Gallery effect: sections appear like premium 3D cards */
+.chamber::before {
+    /* Enhanced room wall glow (CRISP, not blurred) */
+    box-shadow:
+        inset 0 80px 120px -40px rgba(3,0,20,0.7),
+        inset 0 -80px 120px -40px rgba(3,0,20,0.7),
+        inset 80px 0 100px -50px rgba(3,0,20,0.4),
+        inset -80px 0 100px -50px rgba(3,0,20,0.4),
+        /* Crisp edge highlight when entering */
+        0 0 40px rgba(129,140,248,0.08);
+    transition: all 0.8s var(--ease-bounce), box-shadow 0.8s var(--ease-bounce);
+}
+
+.chamber.in-view::before {
+    box-shadow:
+        inset 0 40px 60px -30px rgba(3,0,20,0.4),
+        inset 0 -40px 60px -30px rgba(3,0,20,0.4),
+        inset 40px 0 50px -30px rgba(3,0,20,0.2),
+        inset -40px 0 50px -30px rgba(3,0,20,0.2),
+        /* Crisp glow when section is active */
+        0 0 60px rgba(129,140,248,0.15),
+        0 0 120px rgba(129,140,248,0.06);
+}
+
+/* ==================== CONTENT STAGGER ANIMATION ==================== */
+/* Content inside each section fades in staggered after the section slides in */
+.chamber .section-header {
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.8s var(--ease);
+    transition: all 1s var(--ease-bounce) 0.3s;
 }
-.footer.in-view {
+
+.chamber.in-view .section-header {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* ==================== MOBILE — Simpler animations, no 3D rotations ==================== */
+.chamber .container > * {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s var(--ease-bounce);
+}
+
+.chamber.in-view .container > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger each child */
+.chamber.in-view .about-grid { transition-delay: 0.4s; }
+.chamber.in-view .value-cards { transition-delay: 0.3s; }
+.chamber.in-view .skills-grid { transition-delay: 0.35s; }
+.chamber.in-view .exp-showcase { transition-delay: 0.32s; }
+.chamber.in-view .projects-grid { transition-delay: 0.38s; }
+.chamber.in-view .ach-grid { transition-delay: 0.36s; }
+.chamber.in-view .edu-timeline { transition-delay: 0.34s; }
+.chamber.in-view .contact-grid { transition-delay: 0.33s; }
+
+/* ==================== DOORWAY CRISP ENTRANCE EFFECT ==================== */
+.doorway {
+    opacity: 0;
+    transform: scaleY(0.5) translateY(40px);
+    transition: all 0.7s var(--ease-bounce);
+}
+
+.doorway.in-view {
+    opacity: 1;
+    transform: scaleY(1) translateY(0);
+}
+
+.doorway-arch {
+    /* Crisp 3D perspective */
+    transform: perspective(800px) rotateX(15deg);
+    transition: all 0.6s var(--ease-bounce);
+}
+
+.doorway.in-view .doorway-arch {
+    transform: perspective(800px) rotateX(0deg);
+}
+
+/* Light beam through doorway (crisp gradient, not blurred) */
+.doorway-light {
+    background: linear-gradient(
+        180deg,
+        rgba(129,140,248,0.25) 0%,
+        rgba(129,140,248,0.08) 50%,
+        transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.8s var(--ease);
+}
+
+.doorway.in-view .doorway-light {
+    opacity: 1;
+}
+
+/* ==================== SECTION TITLE ENTRANCE WITH CHARACTER WAVE ==================== */
+.section-title {
+    /* Stagger each character for wave effect */
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.section-title span {
+    overflow: hidden;
+    display: inline-block;
+}
+
+.section-title-char {
+    display: inline-block;
+    animation: charWaveEnter 0.6s var(--ease-bounce) backwards;
+    animation-delay: calc(var(--char-index, 0) * 0.05s);
+}
+
+@keyframes charWaveEnter {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) rotateX(-60deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+    }
+}
+
+/* ==================== PREMIUM 3D CARD TILT ON HOVER ==================== */
+.value-card,
+.skill-card,
+.project-card,
+.ach-card,
+.cert-card,
+.edu-card-apple {
+    perspective: 1200px;
+    transform: translateZ(0);
+    transition: all 0.4s var(--ease);
+}
+
+.value-card:hover,
+.skill-card:hover,
+.project-card:hover,
+.ach-card:hover,
+.cert-card:hover,
+.edu-card-apple:hover {
+    /* 3D lift and tilt */
+    transform: translateY(-8px) translateZ(20px) rotateX(2deg) rotateY(-1deg);
+}
+
+/* ==================== HERO CONTENT STAGGER ==================== */
+.hero .hero-text > * {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroContentSlideIn 0.8s var(--ease-bounce) forwards;
+}
+
+.hero-badge {
+    animation-delay: 1s;
+}
+
+.hero-title {
+    animation-delay: 1.3s;
+}
+
+.hero-subtitle {
+    animation-delay: 1.5s;
+}
+
+.hero-desc {
+    animation-delay: 1.7s;
+}
+
+.hero-cta {
+    animation-delay: 1.9s;
+}
+
+.hero-stats {
+    animation-delay: 2.1s;
+}
+
+@keyframes heroContentSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: blur(4px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+.hero-visual {
+    opacity: 0;
+    animation: heroPhotoZoomIn 1.2s var(--ease-bounce) 0.8s forwards;
+}
+
+@keyframes heroPhotoZoomIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.7) translateY(30px);
+        filter: blur(8px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+/* ==================== PHOTO BADGES ENTRANCE ==================== */
+.photo-badge {
+    opacity: 0;
+    animation: badgeFloat 1s var(--ease-bounce) backwards;
+}
+
+.photo-badge-1 { animation-delay: 2.2s; }
+.photo-badge-2 { animation-delay: 2.4s; }
+.photo-badge-3 { animation-delay: 2.6s; }
+.photo-badge-4 { animation-delay: 2.8s; }
+.photo-badge-5 { animation-delay: 3s; }
+.photo-badge-6 { animation-delay: 3.2s; }
+
+@keyframes badgeFloat {
+    0% {
+        opacity: 0;
+        transform: scale(0) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ==================== ABOUT SECTION ENTRANCE ==================== */
+.about-left {
+    opacity: 0;
+    transform: translateX(-50px) rotateY(15deg);
+    transition: all 1s var(--ease-bounce) 0.2s;
+}
+
+.about-right {
+    opacity: 0;
+    transform: translateX(50px) rotateY(-15deg);
+    transition: all 1s var(--ease-bounce) 0.3s;
+}
+
+.chamber.in-view .about-left {
+    opacity: 1;
+    transform: translateX(0) rotateY(0deg);
+}
+
+.chamber.in-view .about-right {
+    opacity: 1;
+    transform: translateX(0) rotateY(0deg);
+}
+
+/* ==================== SKILL SPHERE ENTRANCE ==================== */
+.skill-sphere-canvas {
+    opacity: 0;
+    transform: scale(0.8) rotateZ(-15deg);
+    transition: all 1.2s var(--ease-bounce) 0.2s;
+}
+
+.chamber.in-view .skill-sphere-canvas {
+    opacity: 1;
+    transform: scale(1) rotateZ(0deg);
+}
+
+/* ==================== EXPERIENCE CARD STAGGER ==================== */
+.exp-card {
+    opacity: 0;
+    transform: translateX(-60px) rotateY(20deg);
+    transition: all 0.9s var(--ease-bounce);
+}
+
+.chamber.in-view .exp-card:nth-child(1) {
+    opacity: 1;
+    transform: translateX(0) rotateY(0deg);
+    transition-delay: 0.3s;
+}
+
+.chamber.in-view .exp-card:nth-child(2) {
+    opacity: 1;
+    transform: translateX(0) rotateY(0deg);
+    transition-delay: 0.5s;
+}
+
+.chamber.in-view .exp-card:nth-child(3) {
+    opacity: 1;
+    transform: translateX(0) rotateY(0deg);
+    transition-delay: 0.7s;
+}
+
+/* ==================== PROJECT FEATURED ENTRANCE ==================== */
+.project-featured {
+    opacity: 0;
+    transform: perspective(1200px) rotateX(15deg) translateZ(-80px) scale(0.9);
+    transition: all 1.1s var(--ease-bounce) 0.2s;
+}
+
+.chamber.in-view .project-featured {
+    opacity: 1;
+    transform: perspective(1200px) rotateX(0deg) translateZ(0) scale(1);
+}
+
+/* Project grid cards */
+.project-card {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s var(--ease-bounce);
+}
+
+.chamber.in-view .project-card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.chamber.in-view .project-card:nth-child(1) { transition-delay: 0.5s; }
+.chamber.in-view .project-card:nth-child(2) { transition-delay: 0.65s; }
+.chamber.in-view .project-card:nth-child(3) { transition-delay: 0.8s; }
+.chamber.in-view .project-card:nth-child(4) { transition-delay: 0.95s; }
+
+/* ==================== ACHIEVEMENT CARDS ENTRANCE WITH PULSE ==================== */
+.ach-card {
+    opacity: 0;
+    transform: scale(0.85) rotateZ(-10deg);
+    transition: all 0.9s var(--ease-bounce);
+}
+
+.chamber.in-view .ach-card {
+    opacity: 1;
+    transform: scale(1) rotateZ(0deg);
+}
+
+.chamber.in-view .ach-card:nth-child(1) { transition-delay: 0.3s; }
+.chamber.in-view .ach-card:nth-child(2) { transition-delay: 0.45s; }
+.chamber.in-view .ach-card:nth-child(3) { transition-delay: 0.6s; }
+.chamber.in-view .ach-card:nth-child(4) { transition-delay: 0.75s; }
+
+/* Achievement icon pulse on enter */
+.ach-icon {
+    animation: iconPulseEnter 0.8s var(--ease-bounce) forwards;
+}
+
+.chamber.in-view .ach-icon {
+    animation: iconPulseEnter 0.6s var(--ease-bounce) forwards;
+}
+
+@keyframes iconPulseEnter {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.2) rotate(10deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+/* ==================== EDUCATION TIMELINE ENTRANCE ==================== */
+.edu-item {
+    opacity: 0;
+    transform: translateX(-80px) rotateY(20deg);
+    transition: all 0.9s var(--ease-bounce);
+}
+
+.chamber.in-view .edu-item {
+    opacity: 1;
+    transform: translateX(0) rotateY(0deg);
+}
+
+.chamber.in-view .edu-item:nth-child(1) { transition-delay: 0.2s; }
+.chamber.in-view .edu-item:nth-child(2) { transition-delay: 0.4s; }
+.chamber.in-view .edu-item:nth-child(3) { transition-delay: 0.6s; }
+
+/* ==================== CONTACT SECTION ENTRANCE ==================== */
+.contact-links {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: all 1s var (--ease-bounce) 0.2s;
+}
+
+.contact-form {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: all 1s var (--ease-bounce) 0.3s;
+}
+
+.chamber.in-view .contact-links {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.chamber.in-view .contact-form {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.contact-row {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.7s var(--ease-bounce);
+}
+
+.chamber.in-view .contact-row {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.chamber.in-view .contact-row:nth-child(1) { transition-delay: 0.4s; }
+.chamber.in-view .contact-row:nth-child(2) { transition-delay: 0.55s; }
+.chamber.in-view .contact-row:nth-child(3) { transition-delay: 0.7s; }
+.chamber.in-view .contact-row:nth-child(4) { transition-delay: 0.85s; }
+
+/* ==================== MOBILE RESPONSIVE SNAP SCROLL ==================== */
 @media (max-width: 768px) {
+    html {
+        scroll-snap-type: y proximity;
+        /* Less aggressive snapping on mobile */
+    }
+
+    section.chamber {
+        scroll-snap-align: center;
+        min-height: auto;
+        padding: 40px 0;
+    }
+
+    .chamber {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+
+    .chamber.in-view {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    /* Simpler entrance on mobile */
     .about-left,
     .about-right,
     .contact-links,
     .contact-form {
-        transform: translateY(30px) !important;
-    }
-    .about-left.in-view,
-    .about-right.in-view,
-    .contact-links.in-view,
-    .contact-form.in-view {
-        transform: translateY(0) !important;
+        transform: translateY(20px);
     }
 
-    .value-card,
-    .skill-card,
-    .exp-card,
-    .project-card,
-    .ach-card,
-    .edu-item,
-    .cert-card {
-        transform: translateY(30px) !important;
+    .chamber.in-view .about-left,
+    .chamber.in-view .about-right,
+    .chamber.in-view .contact-links,
+    .chamber.in-view .contact-form {
+        transform: translateY(0);
     }
-    .value-card.in-view,
-    .skill-card.in-view,
-    .exp-card.in-view,
-    .project-card.in-view,
-    .ach-card.in-view,
-    .edu-item.in-view,
-    .cert-card.in-view {
-        transform: translateY(0) !important;
-    }
-
-    .project-featured {
-        transform: translateY(30px) scale(0.98) !important;
-    }
-    .project-featured.in-view {
-        transform: translateY(0) scale(1) !important;
-    }
-
-    .contact-row {
-        transform: translateY(15px) !important;
-    }
-    .contact-row.in-view {
-        transform: translateY(0) !important;
-    }
-
-    .nikhil-bot { display: none !important; }
 }
 
-/* ==================== REDUCED MOTION — disable all animations ==================== */
+/* ==================== REDUCED MOTION: RESPECT PREFERENCES ==================== */
 @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+    html {
+        scroll-snap-type: none;
     }
 
+    .chamber,
+    .chamber.in-view,
+    .chamber .section-header,
+    .chamber.in-view .section-header,
+    .hero,
+    .hero.in-view,
     .hero .hero-text > *,
     .hero-visual,
     .photo-badge,
-    .section-header,
     .about-left,
     .about-right,
-    .value-card,
-    .skill-card,
+    .skill-sphere-canvas,
     .exp-card,
     .project-featured,
     .project-card,
@@ -2778,38 +3887,819 @@ html {
     .edu-item,
     .contact-links,
     .contact-form,
-    .contact-row,
-    .cert-card,
-    .marquee-strip,
-    .footer,
-    [data-reveal] {
+    .contact-row {
+        animation: none !important;
+        transition: none !important;
         opacity: 1 !important;
         transform: none !important;
-        animation: none !important;
+        filter: none !important;
     }
 }
 
-/* ==================== [data-animate] FALLBACK — ensure old data-animate works ==================== */
-[data-animate] {
+/* ============================================================
+   DEPTH INDICATOR — ELEVATOR SHAFT ON RIGHT SIDE
+   Shows current chamber floor as you descend
+   ============================================================ */
+
+.depth-indicator {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
-}
-[data-animate="fade-left"] { transform: translateX(30px); }
-[data-animate="fade-right"] { transform: translateX(-30px); }
-[data-animate].animated,
-[data-animate].in-view {
-    opacity: 1;
-    transform: translate(0);
+    pointer-events: none;
+    transition: opacity 0.5s var(--ease);
 }
 
-/* ==================== PRINT STYLES ==================== */
-@media print {
-    .preloader, .cursor, .cursor-follower, .noise, .scroll-progress,
-    .back-to-top, .scroll-mascot, .hero-matrix, .hero-neural-bg,
-    .hero-canvas, .hero-blob, .hero-grid, .section-glow,
-    .nav, .nav-overlay, .mobile-fab, .kbd-hint { display: none !important; }
-    body { background: #fff; color: #000; }
-    .section { padding: 20px 0; }
-    [data-animate] { opacity: 1 !important; transform: none !important; }
+.depth-indicator.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.depth-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.depth-label {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(30, 27, 75, 0.6);
+    border: 1.5px solid rgba(129, 140, 248, 0.3);
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(129, 140, 248, 0.6);
+    cursor: pointer;
+    transition: all 0.3s var(--ease);
+    backdrop-filter: blur(8px);
+}
+
+.depth-label:hover {
+    background: rgba(30, 27, 75, 0.9);
+    border-color: rgba(129, 140, 248, 0.8);
+    color: rgba(129, 140, 248, 1);
+    transform: scale(1.15);
+}
+
+.depth-label.active {
+    background: linear-gradient(135deg, rgba(129, 140, 248, 0.8), rgba(192, 132, 252, 0.8));
+    border-color: rgba(129, 140, 248, 1);
+    color: #fff;
+    box-shadow: 0 0 20px rgba(129, 140, 248, 0.6);
+    transform: scale(1.25);
+}
+
+.depth-shaft {
+    position: relative;
+    width: 3px;
+    height: 200px;
+    background: linear-gradient(180deg, rgba(129, 140, 248, 0.1), rgba(129, 140, 248, 0.3), rgba(129, 140, 248, 0.1));
+    border-radius: 2px;
+    margin: 0 auto;
+}
+
+.depth-elevator {
+    position: absolute;
+    width: 3px;
+    height: 22px;
+    background: linear-gradient(90deg, rgba(129, 140, 248, 0.8), rgba(192, 132, 252, 0.8));
+    border-radius: 2px;
+    left: 0;
+    top: 0;
+    box-shadow: 0 0 15px rgba(129, 140, 248, 0.6);
+    transition: top 0.6s var(--ease-cubic);
+}
+
+@media (max-width: 768px) {
+    .depth-indicator {
+        display: none;
+    }
+}
+
+/* ============================================================
+   ROOM AMBIENCE PARTICLES
+   Floating symbols specific to each chamber
+   ============================================================ */
+
+.room-ambient {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.room-particle {
+    position: absolute;
+    font-size: 32px;
+    opacity: 0;
+    animation: particleFloat 8s infinite ease-in-out;
+    filter: drop-shadow(0 0 10px rgba(129, 140, 248, 0.3));
+}
+
+.room-particle:nth-child(1) {
+    left: 10%;
+    top: 15%;
+    animation-delay: 0s;
+}
+
+.room-particle:nth-child(2) {
+    left: 20%;
+    top: 70%;
+    animation-delay: 1.2s;
+}
+
+.room-particle:nth-child(3) {
+    right: 15%;
+    top: 25%;
+    animation-delay: 2.4s;
+}
+
+.room-particle:nth-child(4) {
+    right: 25%;
+    top: 75%;
+    animation-delay: 3.6s;
+}
+
+.room-particle:nth-child(5) {
+    left: 50%;
+    top: 50%;
+    animation-delay: 4.8s;
+}
+
+@keyframes particleFloat {
+    0%, 100% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.8);
+    }
+    25% {
+        opacity: 0.6;
+        transform: translateY(-20px) scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translateY(-80px) scale(1.1);
+    }
+    75% {
+        opacity: 0.4;
+        transform: translateY(-40px) scale(0.9);
+    }
+}
+
+/* Room-specific particle effects */
+.room-ambient-story .room-particle {
+    filter: drop-shadow(0 0 10px rgba(147, 112, 219, 0.4));
+}
+
+.room-ambient-power .room-particle {
+    filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.4));
+    animation-duration: 6s;
+}
+
+.room-ambient-arsenal .room-particle {
+    filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.4));
+    animation-duration: 7s;
+}
+
+.room-ambient-lab .room-particle {
+    filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.4));
+    animation-duration: 9s;
+}
+
+.room-ambient-trophy .room-particle {
+    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.4));
+    animation-duration: 5s;
+}
+
+.room-ambient-archive .room-particle {
+    filter: drop-shadow(0 0 10px rgba(129, 140, 248, 0.4));
+    animation-duration: 8s;
+}
+
+.room-ambient-comms .room-particle {
+    filter: drop-shadow(0 0 10px rgba(192, 132, 252, 0.4));
+    animation-duration: 6.5s;
+}
+
+/* ============================================================
+   MINI-NIKHIL IN-ROOM SCENES
+   Contextual avatar with room-specific actions
+   ============================================================ */
+
+.room-mini-nikhil {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    z-index: 50;
+    opacity: 0;
+    animation: miniNikhilAppear 1s var(--ease-bounce) forwards;
+    animation-delay: 0.8s;
+}
+
+@keyframes miniNikhilAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0) translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.rmn-face {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(129, 140, 248, 0.5);
+    box-shadow: 0 0 25px rgba(129, 140, 248, 0.3);
+    animation: faceHover 3s ease-in-out infinite;
+}
+
+@keyframes faceHover {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-8px) scale(1.05);
+    }
+}
+
+.rmn-action {
+    position: absolute;
+    font-size: 32px;
+    animation: actionFloat 2s ease-in-out infinite;
+}
+
+.rmn-book { animation-delay: 0s; left: -20px; top: 20px; }
+.rmn-thought { animation-delay: 0.2s; right: 10px; top: 10px; animation-name: thoughtBubble; }
+.rmn-flex { animation-delay: 0s; right: -15px; top: 30px; animation-name: flexPulse; }
+.rmn-aura { animation-delay: 0.3s; }
+.rmn-laptop { animation-delay: 0s; right: -20px; bottom: 20px; animation-name: laptopGlow; }
+.rmn-wrench { animation-delay: 0s; left: -25px; bottom: 15px; }
+.rmn-trophy-hold { animation-delay: 0s; right: -15px; top: 10px; animation-name: trophyHold; }
+.rmn-desk-lamp { animation-delay: 0s; left: -20px; top: 20px; animation-name: lampFlicker; }
+.rmn-books-stack { font-size: 24px; position: absolute; right: -10px; bottom: 15px; animation: booksStack 2.5s ease-in-out infinite; }
+.rmn-wave-hand { animation-delay: 0s; right: -20px; top: 15px; animation-name: waveHand; }
+
+@keyframes actionFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(5deg); }
+}
+
+@keyframes thoughtBubble {
+    0%, 100% { opacity: 0.6; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+@keyframes flexPulse {
+    0%, 100% { transform: scale(1) rotate(-10deg); }
+    50% { transform: scale(1.3) rotate(10deg); }
+}
+
+@keyframes laptopGlow {
+    0%, 100% { transform: rotate(-15deg); filter: drop-shadow(0 0 5px rgba(34, 211, 238, 0.5)); }
+    50% { transform: rotate(5deg); filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.8)); }
+}
+
+@keyframes trophyHold {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-15px) scale(1.15); }
+}
+
+@keyframes lampFlicker {
+    0%, 100% { opacity: 0.8; }
+    10%, 15% { opacity: 0.3; }
+    20%, 100% { opacity: 0.8; }
+}
+
+@keyframes booksStack {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+@keyframes waveHand {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(20deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-20deg); }
+}
+
+/* Aura effect for power section */
+.rmn-aura {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 2px solid rgba(255, 107, 107, 0.4);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation: auraExpand 2s ease-out infinite;
+}
+
+@keyframes auraExpand {
+    0% {
+        width: 100px;
+        height: 100px;
+        opacity: 1;
+    }
+    100% {
+        width: 160px;
+        height: 160px;
+        opacity: 0;
+    }
+}
+
+/* Typing dots for arsenal section */
+.rmn-typing-dots {
+    display: flex;
+    gap: 4px;
+    position: absolute;
+    right: -30px;
+    bottom: 20px;
+}
+
+.rmn-typing-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(34, 211, 238, 0.7);
+    animation: typingDot 1.4s infinite;
+}
+
+.rmn-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.rmn-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingDot {
+    0%, 60%, 100% {
+        opacity: 0.3;
+        transform: translateY(0);
+    }
+    30% {
+        opacity: 1;
+        transform: translateY(-6px);
+    }
+}
+
+/* Sparks for lab section */
+.rmn-sparks {
+    position: absolute;
+    right: -30px;
+    top: 30px;
+    font-size: 20px;
+}
+
+.rmn-sparks span {
+    position: absolute;
+    animation: sparkShoot 1s ease-out infinite;
+}
+
+.rmn-sparks span:nth-child(1) { animation-delay: 0s; }
+.rmn-sparks span:nth-child(2) { animation-delay: 0.3s; }
+.rmn-sparks span:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes sparkShoot {
+    0% {
+        opacity: 1;
+        transform: translate(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(30px, -30px) scale(0);
+    }
+}
+
+/* Confetti for trophy section */
+.rmn-confetti-burst {
+    position: absolute;
+    right: -25px;
+    top: 15px;
+    font-size: 24px;
+}
+
+.rmn-confetti-burst span {
+    position: absolute;
+    animation: confettiFall 1.8s ease-out infinite;
+}
+
+.rmn-confetti-burst span:nth-child(1) { animation-delay: 0s; left: 0; }
+.rmn-confetti-burst span:nth-child(2) { animation-delay: 0.2s; left: 15px; }
+.rmn-confetti-burst span:nth-child(3) { animation-delay: 0.4s; left: -15px; }
+
+@keyframes confettiFall {
+    0% {
+        opacity: 1;
+        transform: translateY(-20px) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(60px) rotate(360deg);
+    }
+}
+
+/* Zzz for education section */
+.rmn-zzz {
+    position: absolute;
+    right: -20px;
+    top: 20px;
+    font-size: 16px;
+    color: rgba(129, 140, 248, 0.7);
+}
+
+.rmn-zzz span {
+    display: inline-block;
+    animation: zzzFloat 2s ease-in-out infinite;
+}
+
+.rmn-zzz span:nth-child(1) { animation-delay: 0s; }
+.rmn-zzz span:nth-child(2) { animation-delay: 0.3s; }
+.rmn-zzz span:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes zzzFloat {
+    0%, 100% {
+        opacity: 0.3;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-15px);
+    }
+}
+
+/* Hearts for contact section */
+.rmn-heart-burst {
+    position: absolute;
+    right: -30px;
+    bottom: 25px;
+    font-size: 20px;
+}
+
+.rmn-heart-burst span {
+    position: absolute;
+    animation: heartFloat 2s ease-out infinite;
+}
+
+.rmn-heart-burst span:nth-child(1) { animation-delay: 0s; }
+.rmn-heart-burst span:nth-child(2) { animation-delay: 0.3s; }
+.rmn-heart-burst span:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes heartFloat {
+    0% {
+        opacity: 1;
+        transform: translate(0) scale(1) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(40px, -80px) scale(0) rotate(360deg);
+    }
+}
+
+/* Speech bubble */
+.rmn-speech-bubble {
+    background: rgba(30, 27, 75, 0.8);
+    border: 1.5px solid rgba(129, 140, 248, 0.5);
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: rgba(129, 140, 248, 0.9);
+    white-space: nowrap;
+    backdrop-filter: blur(8px);
+    position: relative;
+    animation: speechBubbleFloat 0.6s var(--ease-bounce);
+}
+
+.rmn-speech-bubble::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(30, 27, 75, 0.8);
+    border: 1.5px solid rgba(129, 140, 248, 0.5);
+    border-radius: 50%;
+    bottom: -10px;
+    left: 12px;
+}
+
+@keyframes speechBubbleFloat {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .room-mini-nikhil {
+        width: 80px;
+        bottom: 20px;
+        left: 20px;
+    }
+
+    .rmn-face {
+        width: 60px;
+        height: 60px;
+    }
+
+    .rmn-action {
+        font-size: 24px;
+    }
+
+    .rmn-speech-bubble {
+        font-size: 10px;
+        padding: 6px 10px;
+    }
+}
+
+/* ============================================================
+   DOORWAY TRANSITIONS
+   Portal effects when entering new chambers
+   ============================================================ */
+
+.doorway {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, rgba(30, 27, 75, 0.4), rgba(10, 3, 50, 0.9));
+    z-index: 100;
+    overflow: hidden;
+}
+
+.doorway::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 30%, rgba(129, 140, 248, 0.1) 50%, transparent 70%);
+    animation: doorwaySweep 1.5s ease-in-out;
+}
+
+@keyframes doorwaySweep {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.doorway-frame {
+    position: relative;
+    width: 300px;
+    height: 450px;
+    perspective: 1200px;
+}
+
+.doorway-arch {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 3px solid rgba(129, 140, 248, 0.6);
+    border-radius: 50% 50% 0 0;
+    background: linear-gradient(135deg, rgba(129, 140, 248, 0.1), rgba(192, 132, 252, 0.1));
+    box-shadow:
+        inset 0 0 40px rgba(129, 140, 248, 0.3),
+        0 0 60px rgba(129, 140, 248, 0.2);
+}
+
+.doorway-light {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(129, 140, 248, 0.3) 0%,
+        rgba(192, 132, 252, 0.2) 50%,
+        transparent 100%
+    );
+    border-radius: 50% 50% 0 0;
+    animation: doorwayLightPulse 1.2s ease-out;
+}
+
+@keyframes doorwayLightPulse {
+    0% {
+        opacity: 0;
+        filter: blur(20px);
+    }
+    50% {
+        opacity: 1;
+        filter: blur(10px);
+    }
+    100% {
+        opacity: 0.6;
+        filter: blur(0px);
+    }
+}
+
+.doorway-walker {
+    position: absolute;
+    width: 60px;
+    height: 100px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: doorwayWalk 1.8s ease-in-out forwards;
+    opacity: 0;
+}
+
+@keyframes doorwayWalk {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, 100%) scale(0.5);
+        filter: blur(5px);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -200%) scale(0.5);
+        filter: blur(5px);
+    }
+}
+
+.dw-face {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(129, 140, 248, 0.7);
+}
+
+.dw-legs {
+    position: relative;
+    width: 20px;
+    height: 45px;
+    margin-top: 8px;
+}
+
+.dw-leg {
+    position: absolute;
+    width: 6px;
+    height: 35px;
+    background: rgba(129, 140, 248, 0.7);
+    border-radius: 3px;
+    bottom: 0;
+    animation: walkingLeg 0.8s ease-in-out infinite;
+}
+
+.dw-leg-l {
+    left: 0;
+    animation-delay: 0s;
+}
+
+.dw-leg-r {
+    right: 0;
+    animation-delay: 0.4s;
+}
+
+@keyframes walkingLeg {
+    0%, 100% {
+        transform: rotateZ(-25deg);
+    }
+    50% {
+        transform: rotateZ(25deg);
+    }
+}
+
+.doorway-label {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: rgba(129, 140, 248, 0.8);
+    text-align: center;
+    animation: doorwayLabelFade 1.8s ease-out;
+}
+
+.doorway-label strong {
+    color: rgba(192, 132, 252, 1);
+    font-weight: 700;
+}
+
+@keyframes doorwayLabelFade {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    40% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+}
+
+.doorway-depth-line {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 80px;
+    background: linear-gradient(180deg, rgba(129, 140, 248, 0.6), transparent);
+    animation: depthLineExtend 1.8s ease-out;
+}
+
+@keyframes depthLineExtend {
+    0% {
+        height: 20px;
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        height: 80px;
+        opacity: 0;
+    }
+}
+
+/* Doorway entrance animation class */
+.doorway.in-view {
+    animation: doorwayEnter 0.8s var(--ease-bounce) forwards;
+}
+
+@keyframes doorwayEnter {
+    0% {
+        opacity: 0;
+        transform: scaleY(0.3) translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: scaleY(1) translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .doorway-frame {
+        width: 250px;
+        height: 350px;
+    }
+
+    .dw-face {
+        width: 30px;
+        height: 30px;
+    }
+
+    .doorway-label {
+        font-size: 12px;
+    }
+}
+
+/* ============================================================
+   BOT TRAIL PARTICLE EFFECT
+   Mini particle trail following Nikhil bot
+   ============================================================ */
+
+.bot-trail {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(129, 140, 248, 0.8), rgba(129, 140, 248, 0));
+    pointer-events: none;
+    animation: trailFade 0.6s ease-out forwards;
+    z-index: 999;
+}
+
+@keyframes trailFade {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0);
+    }
 }
