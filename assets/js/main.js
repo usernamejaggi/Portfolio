@@ -298,7 +298,9 @@
             '.project-card',
             '.ach-card',
             '.edu-item',
+            '.contact-hero',
             '.contact-links',
+            '.contact-form-wrap',
             '.contact-form',
             '.contact-row',
             '.cert-card',
@@ -314,24 +316,32 @@
         const allEls = document.querySelectorAll(selectors.join(','));
         if (!allEls.length) return;
 
+        // Use a lower threshold for earlier triggering and smoother feel
         const obs = new IntersectionObserver((entries) => {
             entries.forEach(e => {
                 if (e.isIntersecting) {
                     const delay = parseInt(e.target.dataset.delay) || 0;
-                    setTimeout(() => {
-                        e.target.classList.add('in-view');
-                        e.target.classList.add('animated');
+                    
+                    // Use requestAnimationFrame for buttery smooth timing
+                    requestAnimationFrame(() => {
+                        setTimeout(() => {
+                            e.target.classList.add('in-view');
+                            e.target.classList.add('animated');
 
-                        // Trigger skill bar width
-                        if (e.target.classList.contains('skill-bar-fill')) {
-                            const w = e.target.dataset.width;
-                            if (w) e.target.style.width = w + '%';
-                        }
-                    }, delay);
+                            // Trigger skill bar width
+                            if (e.target.classList.contains('skill-bar-fill')) {
+                                const w = e.target.dataset.width;
+                                if (w) e.target.style.width = w + '%';
+                            }
+                        }, delay);
+                    });
                     obs.unobserve(e.target);
                 }
             });
-        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+        }, { 
+            threshold: 0.05, 
+            rootMargin: '0px 0px -60px 0px' 
+        });
 
         allEls.forEach(el => obs.observe(el));
     }
