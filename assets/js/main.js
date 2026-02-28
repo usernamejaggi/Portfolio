@@ -88,9 +88,6 @@
         document.addEventListener('mousemove', e => {
             mx = e.clientX;
             my = e.clientY;
-            isMoving = true;
-            clearTimeout(moveTimer);
-            moveTimer = setTimeout(() => { isMoving = false; }, 100);
         });
 
         // Click effects — massive lightning burst
@@ -273,71 +270,12 @@
             // --- Speed calculation ---
             const speed = Math.sqrt(dotVx * dotVx + dotVy * dotVy);
 
-            // --- Lightning alpha fade (smooth ramp) ---
-            const targetAlpha = isMoving ? Math.min(speed / 8, 0.8) : 0;
-            lightningAlpha += (targetAlpha - lightningAlpha) * 0.08;
-
-            // --- Spawn ambient arc bolts while moving ---
-            if (isMoving && speed > 3 && now - lastAmbientBolt > (120 - Math.min(speed * 5, 80))) {
-                const angle = Math.atan2(dotVy, dotVx) + (Math.random() - 0.5) * 2.5;
-                const len = 20 + Math.random() * 40 + speed * 2;
-                ambientBolts.push({
-                    x1: dotX, y1: dotY,
-                    x2: dotX + Math.cos(angle) * len,
-                    y2: dotY + Math.sin(angle) * len,
-                    alpha: 0.3 + Math.min(speed / 15, 0.5),
-                    decay: 0.025 + Math.random() * 0.015,
-                    width: 0.8 + Math.random() * 0.8,
-                    depth: 2,
-                    hue: Math.random() > 0.4 ? 'blue' : 'purple'
-                });
-                lastAmbientBolt = now;
-            }
-
-            // --- Spawn trail particles while moving ---
-            if (isMoving && speed > 1.5 && now - lastParticleTime > 25) {
-                const colors = [
-                    'rgba(129,140,248,', 'rgba(192,132,252,',
-                    'rgba(34,211,238,', 'rgba(200,210,255,'
-                ];
-                trailParticles.push({
-                    x: dotX + (Math.random() - 0.5) * 6,
-                    y: dotY + (Math.random() - 0.5) * 6,
-                    r: 1 + Math.random() * 2.5,
-                    alpha: 0.5 + Math.random() * 0.4,
-                    decay: 0.012 + Math.random() * 0.008,
-                    color: colors[Math.floor(Math.random() * colors.length)],
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5
-                });
-                lastParticleTime = now;
-            }
-
             // --- Draw lightning canvas ---
             lCtx.clearRect(0, 0, lightningCanvas.width / dpr, lightningCanvas.height / dpr);
             lCtx.shadowBlur = 0;
             lCtx.shadowColor = 'transparent';
 
-            // Draw trail lightning segments
-            if (trail.length > 2 && lightningAlpha > 0.008) {
-                for (let i = 1; i < trail.length; i++) {
-                    const age = (now - trail[i].t) / 350;
-                    const segAlpha = lightningAlpha * Math.max(0, 1 - age) * (i / trail.length);
-                    if (segAlpha < 0.008) continue;
-
-                    drawLightningBolt(
-                        lCtx,
-                        trail[i - 1].x, trail[i - 1].y,
-                        trail[i].x, trail[i].y,
-                        segAlpha,
-                        0.8 + speed * 0.04,
-                        2,
-                        i % 2 === 0 ? 'blue' : 'purple'
-                    );
-                }
-            }
-
-            // Draw ambient arc bolts
+            // Draw ambient arc bolts (only from clicks now)
             for (let i = ambientBolts.length - 1; i >= 0; i--) {
                 const b = ambientBolts[i];
                 if (b.alpha <= 0.008) { ambientBolts.splice(i, 1); continue; }
@@ -345,7 +283,7 @@
                 b.alpha -= b.decay;
             }
 
-            // Draw trail particles (glowing fading orbs)
+            // Draw trail particles (only from clicks now)
             for (let i = trailParticles.length - 1; i >= 0; i--) {
                 const p = trailParticles[i];
                 if (p.alpha <= 0.008) { trailParticles.splice(i, 1); continue; }
@@ -371,9 +309,9 @@
                 lCtx.fill();
             }
 
-            // Ambient electric glow around cursor (always present, intensifies with speed)
-            const glowAlpha = Math.max(lightningAlpha * 0.25, 0.03);
-            const glowR = 25 + speed * 2.5;
+            // Ambient electric glow around cursor (always present, subtle)
+            const glowAlpha = 0.03;
+            const glowR = 25;
             const grad = lCtx.createRadialGradient(dotX, dotY, 0, dotX, dotY, glowR);
             grad.addColorStop(0, `rgba(200, 210, 255, ${glowAlpha * 0.5})`);
             grad.addColorStop(0.3, `rgba(129, 140, 248, ${glowAlpha * 0.3})`);
@@ -387,9 +325,9 @@
             // Secondary glow ring between dot and follower
             const midX = (dotX + folX) / 2, midY = (dotY + folY) / 2;
             const folDist = Math.sqrt((folX - dotX) ** 2 + (folY - dotY) ** 2);
-            if (folDist > 5 && lightningAlpha > 0.02) {
+            if (folDist > 5) {
                 const ringGrad = lCtx.createRadialGradient(midX, midY, 0, midX, midY, folDist * 0.6);
-                ringGrad.addColorStop(0, `rgba(129, 140, 248, ${lightningAlpha * 0.06})`);
+                ringGrad.addColorStop(0, `rgba(129, 140, 248, 0.03)`);
                 ringGrad.addColorStop(1, 'transparent');
                 lCtx.fillStyle = ringGrad;
                 lCtx.beginPath();
