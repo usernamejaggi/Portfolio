@@ -32,27 +32,384 @@
         }, 2200);
     });
 
-    // ==================== CUSTOM CURSOR ====================
+    // ==================== CUSTOM CURSOR — LIGHTNING EDITION ====================
     const cursorDot = document.getElementById('cursorDot');
     const cursorOutline = document.getElementById('cursorOutline');
-    let mx = 0, my = 0, fx = 0, fy = 0;
+    const lightningCanvas = document.getElementById('cursorLightningCanvas');
 
-    if (cursorDot && cursorOutline && window.innerWidth > 768 && !matchMedia('(pointer: coarse)').matches) {
+    if (cursorDot && cursorOutline && lightningCanvas && window.innerWidth > 768 && !matchMedia('(pointer: coarse)').matches) {
+        const lCtx = lightningCanvas.getContext('2d');
+        let dpr = window.devicePixelRatio || 1;
+
+        // Resize lightning canvas to fill viewport (HiDPI aware)
+        function resizeLightningCanvas() {
+            dpr = window.devicePixelRatio || 1;
+            lightningCanvas.width = window.innerWidth * dpr;
+            lightningCanvas.height = window.innerHeight * dpr;
+            lightningCanvas.style.width = window.innerWidth + 'px';
+            lightningCanvas.style.height = window.innerHeight + 'px';
+            lCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        resizeLightningCanvas();
+        window.addEventListener('resize', resizeLightningCanvas);
+
+        // Physics state — ultra smooth interpolation
+        let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+        let dotX = mx, dotY = my;
+        let dotVx = 0, dotVy = 0;
+        let folX = mx, folY = my;
+        let folVx = 0, folVy = 0;
+
+        // Tuned spring constants for buttery feel
+        const DOT_STIFFNESS = 0.18;
+        const DOT_DAMPING = 0.75;
+        const FOL_STIFFNESS = 0.065;
+        const FOL_DAMPING = 0.82;
+
+        // Trail history for lightning bolts (longer trail = more arcs)
+        const TRAIL_LENGTH = 18;
+        const trail = [];
+        let lastTrailTime = 0;
+
+        // Persistent lightning state
+        let lightningAlpha = 0;
+        let isMoving = false;
+        let moveTimer = null;
+        let lastMx = mx, lastMy = my;
+
+        // Ambient arc bolts that fire randomly from cursor
+        const ambientBolts = [];
+        let lastAmbientBolt = 0;
+
+        // Trail particles (glowing orbs that fade out)
+        const trailParticles = [];
+        let lastParticleTime = 0;
+
         document.addEventListener('mousemove', e => {
-            mx = e.clientX; my = e.clientY;
-            cursorDot.style.left = mx + 'px';
-            cursorDot.style.top = my + 'px';
+            mx = e.clientX;
+            my = e.clientY;
+            isMoving = true;
+            clearTimeout(moveTimer);
+            moveTimer = setTimeout(() => { isMoving = false; }, 100);
         });
-        (function followLoop() {
-            fx += (mx - fx) * 0.12;
-            fy += (my - fy) * 0.12;
-            cursorOutline.style.left = fx + 'px';
-            cursorOutline.style.top = fy + 'px';
-            requestAnimationFrame(followLoop);
+
+        // Click effects — massive lightning burst
+        document.addEventListener('mousedown', () => {
+            cursorDot.classList.add('click');
+            cursorOutline.classList.add('click');
+            spawnElectricSparks(dotX, dotY, 14);
+            spawnClickLightning(dotX, dotY);
+            spawnFlash(dotX, dotY);
+        });
+        document.addEventListener('mouseup', () => {
+            cursorDot.classList.remove('click');
+            cursorOutline.classList.remove('click');
+        });
+
+        // Spawn electric spark DOM particles at a position
+        function spawnElectricSparks(x, y, count) {
+            const sizes = ['--large', '--medium', '--small', '--bolt'];
+            for (let i = 0; i < count; i++) {
+                const spark = document.createElement('div');
+                const size = sizes[Math.floor(Math.random() * sizes.length)];
+                spark.className = 'cursor-spark cursor-spark' + size;
+                const angle = (Math.PI * 2 / count) * i + (Math.random() - 0.5) * 0.9;
+                const dist = 35 + Math.random() * 65;
+                spark.style.left = x + 'px';
+                spark.style.top = y + 'px';
+                spark.style.setProperty('--spark-x', Math.cos(angle) * dist + 'px');
+                spark.style.setProperty('--spark-y', Math.sin(angle) * dist + 'px');
+                spark.style.setProperty('--spark-rot', (Math.random() * 360) + 'deg');
+                document.body.appendChild(spark);
+                setTimeout(() => spark.remove(), 600);
+            }
+        }
+
+        // Spawn a radial-gradient flash on click
+        function spawnFlash(x, y) {
+            const flash = document.createElement('div');
+            flash.className = 'cursor-flash';
+            flash.style.left = x + 'px';
+            flash.style.top = y + 'px';
+            flash.style.width = '120px';
+            flash.style.height = '120px';
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 450);
+        }
+
+        // Spawn explosive lightning bolts radiating from click point
+        function spawnClickLightning(x, y) {
+            const boltCount = 5 + Math.floor(Math.random() * 4);
+            for (let i = 0; i < boltCount; i++) {
+                const angle = (Math.PI * 2 / boltCount) * i + (Math.random() - 0.5) * 0.6;
+                const len = 50 + Math.random() * 80;
+                ambientBolts.push({
+                    x1: x, y1: y,
+                    x2: x + Math.cos(angle) * len,
+                    y2: y + Math.sin(angle) * len,
+                    alpha: 0.9 + Math.random() * 0.1,
+                    decay: 0.04 + Math.random() * 0.02,
+                    width: 1.5 + Math.random() * 1.5,
+                    depth: 3,
+                    hue: Math.random() > 0.5 ? 'purple' : 'blue'
+                });
+            }
+        }
+
+        // Draw a lightning bolt between two points with branching
+        function drawLightningBolt(ctx, x1, y1, x2, y2, alpha, width, depth, hue) {
+            if (depth <= 0 || alpha < 0.008) return;
+            const dx = x2 - x1, dy = y2 - y1;
+            const len = Math.sqrt(dx * dx + dy * dy);
+            if (len < 2) return;
+
+            const segments = Math.max(3, Math.floor(len / 6));
+            const points = [{ x: x1, y: y1 }];
+
+            for (let i = 1; i < segments; i++) {
+                const t = i / segments;
+                const jitter = (Math.random() - 0.5) * len * 0.18 * (depth / 3);
+                points.push({
+                    x: x1 + dx * t + (-dy / len) * jitter,
+                    y: y1 + dy * t + (dx / len) * jitter
+                });
+            }
+            points.push({ x: x2, y: y2 });
+
+            const isP = hue === 'purple';
+            const r1 = isP ? 192 : 129, g1 = isP ? 132 : 140, b1 = isP ? 252 : 248;
+            const r2 = isP ? 165 : 34, g2 = isP ? 180 : 211, b2 = isP ? 252 : 238;
+
+            // Outer glow layer
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
+            ctx.strokeStyle = `rgba(${r1}, ${g1}, ${b1}, ${alpha * 0.25})`;
+            ctx.lineWidth = width + 6;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.shadowColor = `rgba(${r1}, ${g1}, ${b1}, ${alpha * 0.4})`;
+            ctx.shadowBlur = 20;
+            ctx.stroke();
+
+            // Mid glow layer
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
+            ctx.strokeStyle = `rgba(${r2}, ${g2}, ${b2}, ${alpha * 0.45})`;
+            ctx.lineWidth = width + 3;
+            ctx.shadowColor = `rgba(${r2}, ${g2}, ${b2}, ${alpha * 0.5})`;
+            ctx.shadowBlur = 12;
+            ctx.stroke();
+
+            // Core bolt (bright white-ish core)
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
+            ctx.strokeStyle = `rgba(200, 210, 255, ${alpha * 0.9})`;
+            ctx.lineWidth = width;
+            ctx.shadowColor = `rgba(200, 210, 255, ${alpha * 0.7})`;
+            ctx.shadowBlur = 6;
+            ctx.stroke();
+
+            // Reset shadow
+            ctx.shadowBlur = 0;
+            ctx.shadowColor = 'transparent';
+
+            // Branch bolts (recursion)
+            if (depth > 1) {
+                const branchChance = depth > 2 ? 0.5 : 0.3;
+                for (let b = 0; b < 2; b++) {
+                    if (Math.random() < branchChance) {
+                        const bi = Math.floor(Math.random() * (points.length - 2)) + 1;
+                        const bAngle = Math.atan2(dy, dx) + (Math.random() - 0.5) * 1.8;
+                        const bLen = len * (0.2 + Math.random() * 0.25);
+                        drawLightningBolt(ctx,
+                            points[bi].x, points[bi].y,
+                            points[bi].x + Math.cos(bAngle) * bLen,
+                            points[bi].y + Math.sin(bAngle) * bLen,
+                            alpha * 0.5, width * 0.5, depth - 1,
+                            Math.random() > 0.5 ? 'purple' : 'blue'
+                        );
+                    }
+                }
+            }
+        }
+
+        // Main animation loop — runs at display refresh rate
+        (function cursorLoop() {
+            // --- Spring physics for dot (super smooth) ---
+            const ddx = mx - dotX, ddy = my - dotY;
+            dotVx += ddx * DOT_STIFFNESS;
+            dotVy += ddy * DOT_STIFFNESS;
+            dotVx *= DOT_DAMPING;
+            dotVy *= DOT_DAMPING;
+            dotX += dotVx;
+            dotY += dotVy;
+
+            // --- Spring physics for follower (silky lag) ---
+            const fdx = mx - folX, fdy = my - folY;
+            folVx += fdx * FOL_STIFFNESS;
+            folVy += fdy * FOL_STIFFNESS;
+            folVx *= FOL_DAMPING;
+            folVy *= FOL_DAMPING;
+            folX += folVx;
+            folY += folVy;
+
+            // Apply positions directly (no CSS transition, pure spring)
+            cursorDot.style.left = dotX + 'px';
+            cursorDot.style.top = dotY + 'px';
+            cursorOutline.style.left = folX + 'px';
+            cursorOutline.style.top = folY + 'px';
+
+            // --- Trail history ---
+            const now = performance.now();
+            if (now - lastTrailTime > 12) {
+                trail.push({ x: dotX, y: dotY, t: now });
+                if (trail.length > TRAIL_LENGTH) trail.shift();
+                lastTrailTime = now;
+            }
+
+            // --- Speed calculation ---
+            const speed = Math.sqrt(dotVx * dotVx + dotVy * dotVy);
+
+            // --- Lightning alpha fade (smooth ramp) ---
+            const targetAlpha = isMoving ? Math.min(speed / 8, 0.8) : 0;
+            lightningAlpha += (targetAlpha - lightningAlpha) * 0.08;
+
+            // --- Spawn ambient arc bolts while moving ---
+            if (isMoving && speed > 3 && now - lastAmbientBolt > (120 - Math.min(speed * 5, 80))) {
+                const angle = Math.atan2(dotVy, dotVx) + (Math.random() - 0.5) * 2.5;
+                const len = 20 + Math.random() * 40 + speed * 2;
+                ambientBolts.push({
+                    x1: dotX, y1: dotY,
+                    x2: dotX + Math.cos(angle) * len,
+                    y2: dotY + Math.sin(angle) * len,
+                    alpha: 0.3 + Math.min(speed / 15, 0.5),
+                    decay: 0.025 + Math.random() * 0.015,
+                    width: 0.8 + Math.random() * 0.8,
+                    depth: 2,
+                    hue: Math.random() > 0.4 ? 'blue' : 'purple'
+                });
+                lastAmbientBolt = now;
+            }
+
+            // --- Spawn trail particles while moving ---
+            if (isMoving && speed > 1.5 && now - lastParticleTime > 25) {
+                const colors = [
+                    'rgba(129,140,248,', 'rgba(192,132,252,',
+                    'rgba(34,211,238,', 'rgba(200,210,255,'
+                ];
+                trailParticles.push({
+                    x: dotX + (Math.random() - 0.5) * 6,
+                    y: dotY + (Math.random() - 0.5) * 6,
+                    r: 1 + Math.random() * 2.5,
+                    alpha: 0.5 + Math.random() * 0.4,
+                    decay: 0.012 + Math.random() * 0.008,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5
+                });
+                lastParticleTime = now;
+            }
+
+            // --- Draw lightning canvas ---
+            lCtx.clearRect(0, 0, lightningCanvas.width / dpr, lightningCanvas.height / dpr);
+            lCtx.shadowBlur = 0;
+            lCtx.shadowColor = 'transparent';
+
+            // Draw trail lightning segments
+            if (trail.length > 2 && lightningAlpha > 0.008) {
+                for (let i = 1; i < trail.length; i++) {
+                    const age = (now - trail[i].t) / 350;
+                    const segAlpha = lightningAlpha * Math.max(0, 1 - age) * (i / trail.length);
+                    if (segAlpha < 0.008) continue;
+
+                    drawLightningBolt(
+                        lCtx,
+                        trail[i - 1].x, trail[i - 1].y,
+                        trail[i].x, trail[i].y,
+                        segAlpha,
+                        0.8 + speed * 0.04,
+                        2,
+                        i % 2 === 0 ? 'blue' : 'purple'
+                    );
+                }
+            }
+
+            // Draw ambient arc bolts
+            for (let i = ambientBolts.length - 1; i >= 0; i--) {
+                const b = ambientBolts[i];
+                if (b.alpha <= 0.008) { ambientBolts.splice(i, 1); continue; }
+                drawLightningBolt(lCtx, b.x1, b.y1, b.x2, b.y2, b.alpha, b.width, b.depth, b.hue);
+                b.alpha -= b.decay;
+            }
+
+            // Draw trail particles (glowing fading orbs)
+            for (let i = trailParticles.length - 1; i >= 0; i--) {
+                const p = trailParticles[i];
+                if (p.alpha <= 0.008) { trailParticles.splice(i, 1); continue; }
+
+                p.x += p.vx;
+                p.y += p.vy;
+                p.alpha -= p.decay;
+
+                // Glow
+                const grad = lCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
+                grad.addColorStop(0, p.color + (p.alpha * 0.6) + ')');
+                grad.addColorStop(0.5, p.color + (p.alpha * 0.15) + ')');
+                grad.addColorStop(1, 'transparent');
+                lCtx.fillStyle = grad;
+                lCtx.beginPath();
+                lCtx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+                lCtx.fill();
+
+                // Core
+                lCtx.fillStyle = p.color + p.alpha + ')';
+                lCtx.beginPath();
+                lCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                lCtx.fill();
+            }
+
+            // Ambient electric glow around cursor (always present, intensifies with speed)
+            const glowAlpha = Math.max(lightningAlpha * 0.25, 0.03);
+            const glowR = 25 + speed * 2.5;
+            const grad = lCtx.createRadialGradient(dotX, dotY, 0, dotX, dotY, glowR);
+            grad.addColorStop(0, `rgba(200, 210, 255, ${glowAlpha * 0.5})`);
+            grad.addColorStop(0.3, `rgba(129, 140, 248, ${glowAlpha * 0.3})`);
+            grad.addColorStop(0.6, `rgba(192, 132, 252, ${glowAlpha * 0.1})`);
+            grad.addColorStop(1, 'transparent');
+            lCtx.fillStyle = grad;
+            lCtx.beginPath();
+            lCtx.arc(dotX, dotY, glowR, 0, Math.PI * 2);
+            lCtx.fill();
+
+            // Secondary glow ring between dot and follower
+            const midX = (dotX + folX) / 2, midY = (dotY + folY) / 2;
+            const folDist = Math.sqrt((folX - dotX) ** 2 + (folY - dotY) ** 2);
+            if (folDist > 5 && lightningAlpha > 0.02) {
+                const ringGrad = lCtx.createRadialGradient(midX, midY, 0, midX, midY, folDist * 0.6);
+                ringGrad.addColorStop(0, `rgba(129, 140, 248, ${lightningAlpha * 0.06})`);
+                ringGrad.addColorStop(1, 'transparent');
+                lCtx.fillStyle = ringGrad;
+                lCtx.beginPath();
+                lCtx.arc(midX, midY, folDist * 0.6, 0, Math.PI * 2);
+                lCtx.fill();
+            }
+
+            requestAnimationFrame(cursorLoop);
         })();
+
+        // Hover states for interactive elements
         document.querySelectorAll('a, button, .btn, .skill-tag, .project-card, .ach-card, .value-card, .cert-card, .cert-card-enhanced, .contact-row').forEach(el => {
             el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
             el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+        });
+
+        // Hide default cursor on the whole page
+        document.documentElement.style.cursor = 'none';
+        document.querySelectorAll('a, button, [role="button"], input, textarea, select, .btn').forEach(el => {
+            el.style.cursor = 'none';
         });
     }
 
@@ -389,6 +746,148 @@
         counters.forEach(c => obs.observe(c));
     }
 
+    // ==================== MILESTONE COUNTERS ====================
+    function initMilestoneCounters() {
+        const stats = document.querySelectorAll('.milestone-stat[data-count]');
+        if (!stats.length) return;
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (!e.isIntersecting || e.target.dataset.counted) return;
+                e.target.dataset.counted = 'true';
+                const target = parseInt(e.target.dataset.count);
+                if (isNaN(target)) return;
+                const start = performance.now();
+                const duration = 1800;
+                function tick(now) {
+                    const p = Math.min((now - start) / duration, 1);
+                    const eased = 1 - Math.pow(1 - p, 3);
+                    e.target.textContent = Math.floor(eased * target);
+                    if (p < 1) requestAnimationFrame(tick);
+                }
+                requestAnimationFrame(tick);
+                obs.unobserve(e.target);
+            });
+        }, { threshold: 0.5 });
+        stats.forEach(s => obs.observe(s));
+    }
+
+    // ==================== MILESTONE PROGRESS RINGS ====================
+    function initMilestoneRings() {
+        const rings = document.querySelectorAll('.milestone-progress[data-progress]');
+        if (!rings.length) return;
+        const CIRC = 2 * Math.PI * 26; // r=26 => ~163.36
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (!e.isIntersecting || e.target.dataset.animated) return;
+                e.target.dataset.animated = 'true';
+                const progress = parseFloat(e.target.dataset.progress) / 100;
+                const offset = CIRC * (1 - progress);
+                setTimeout(() => {
+                    e.target.style.strokeDashoffset = offset;
+                }, 200);
+                obs.unobserve(e.target);
+            });
+        }, { threshold: 0.3 });
+        rings.forEach(r => obs.observe(r));
+    }
+
+    // ==================== SOFT SKILLS BAR OBSERVER ====================
+    function initSoftSkillsBar() {
+        const bar = document.querySelector('.soft-skills-bar');
+        if (!bar) return;
+        const obs = new IntersectionObserver(([e]) => {
+            if (e.isIntersecting) {
+                bar.classList.add('in-view');
+                obs.unobserve(bar);
+            }
+        }, { threshold: 0.2 });
+        obs.observe(bar);
+    }
+
+    // ==================== SECTION PARTICLE CANVASES ====================
+    function initSectionParticles() {
+        const canvases = document.querySelectorAll('.section-particles-canvas');
+        if (!canvases.length || window.innerWidth <= 768 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        canvases.forEach(canvas => {
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+            let w, h, particles = [], visible = false, raf = null;
+            const COUNT = 30;
+
+            function resize() {
+                const parent = canvas.parentElement;
+                if (!parent) return;
+                w = canvas.width = parent.offsetWidth;
+                h = canvas.height = parent.offsetHeight;
+            }
+
+            class Particle {
+                constructor() { this.reset(); }
+                reset() {
+                    this.x = Math.random() * (w || 800);
+                    this.y = Math.random() * (h || 600);
+                    this.vx = (Math.random() - 0.5) * 0.2;
+                    this.vy = (Math.random() - 0.5) * 0.2;
+                    this.r = Math.random() * 1.2 + 0.3;
+                    this.alpha = Math.random() * 0.15 + 0.03;
+                    const colors = ['129,140,248', '192,132,252', '34,211,238', '52,211,153'];
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > w) this.vx *= -1;
+                    if (this.y < 0 || this.y > h) this.vy *= -1;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${this.color},${this.alpha})`;
+                    ctx.fill();
+                }
+            }
+
+            function init() {
+                resize();
+                particles = [];
+                for (let i = 0; i < COUNT; i++) particles.push(new Particle());
+            }
+
+            function animate() {
+                if (!visible) { raf = null; return; }
+                ctx.clearRect(0, 0, w, h);
+                particles.forEach(p => { p.update(); p.draw(); });
+                // Draw subtle connecting lines
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(129,140,248,${0.025 * (1 - dist / 120)})`;
+                            ctx.lineWidth = 0.4;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                raf = requestAnimationFrame(animate);
+            }
+
+            const obs = new IntersectionObserver(([e]) => {
+                visible = e.isIntersecting;
+                if (visible && !raf) animate();
+            }, { threshold: 0 });
+
+            init();
+            obs.observe(canvas);
+            window.addEventListener('resize', resize);
+        });
+    }
+
     // ==================== 3D TILT EFFECT ====================
     function initTilt() {
         if (window.innerWidth <= 768 || matchMedia('(pointer: coarse)').matches) return;
@@ -533,6 +1032,10 @@
         initScrollReveal();
         initSkillBars();
         initCounters();
+        initMilestoneCounters();
+        initMilestoneRings();
+        initSoftSkillsBar();
+        initSectionParticles();
         initTilt();
         initCardGlow();
         initContactForm();
