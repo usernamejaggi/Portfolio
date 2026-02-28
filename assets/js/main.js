@@ -50,7 +50,7 @@
             cursorOutline.style.top = fy + 'px';
             requestAnimationFrame(followLoop);
         })();
-        document.querySelectorAll('a, button, .btn, .skill-tag, .project-card, .ach-card, .value-card, .cert-card, .contact-row').forEach(el => {
+        document.querySelectorAll('a, button, .btn, .skill-tag, .project-card, .ach-card, .value-card, .cert-card, .cert-card-enhanced, .contact-row').forEach(el => {
             el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
             el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
         });
@@ -302,6 +302,7 @@
             '.contact-form',
             '.contact-row',
             '.cert-card',
+            '.cert-card-enhanced',
             '.marquee-strip',
             '.footer',
             '.section-title',
