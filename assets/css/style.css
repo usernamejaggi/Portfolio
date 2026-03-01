@@ -206,7 +206,7 @@ html { scrollbar-width: thin; scrollbar-color: rgba(129,140,248,0.2) var(--bg); 
     width: 38px; height: 38px; border-radius: 50%; display: flex;
     align-items: center; justify-content: center; padding: 0;
     position: relative; overflow: hidden;
-    transition: all 0.3s var(--ease);
+    transition: all 0.3s var (--ease);
 }
 .theme-toggle:hover { border-color: var(--border-hover); background: rgba(129,140,248,0.06); }
 .theme-toggle::after { display: none; }
@@ -430,15 +430,23 @@ html { scrollbar-width: thin; scrollbar-color: rgba(129,140,248,0.2) var(--bg); 
     width: clamp(200px, 22vw, 260px); height: clamp(200px, 22vw, 260px);
     object-fit: cover; object-position: center top; border-radius: 50%;
     position: relative; z-index: 2;
-    border: 3px solid rgba(129,140,248,0.3);
-    box-shadow: 0 0 60px rgba(129,140,248,0.15), 0 0 120px rgba(192,132,252,0.08);
+    border: none;
+    box-shadow: 
+        0 0 0 3px rgba(129,140,248,0.3),
+        0 0 0 6px rgba(129,140,248,0.1),
+        0 0 60px rgba(129,140,248,0.15),
+        0 0 120px rgba(192,132,252,0.08);
     transition: all 0.6s var(--ease);
     /* Enhanced brightness and contrast for better lighting */
     filter: brightness(1.05) contrast(1.05) saturate(1.1);
 }
 .hero-photo:hover {
     transform: scale(1.04);
-    box-shadow: 0 0 80px rgba(129,140,248,0.25), 0 0 160px rgba(192,132,252,0.15);
+    box-shadow: 
+        0 0 0 3px rgba(129,140,248,0.5),
+        0 0 0 6px rgba(129,140,248,0.2),
+        0 0 80px rgba(129,140,248,0.25),
+        0 0 160px rgba(192,132,252,0.15);
     filter: brightness(1.12) contrast(1.08) saturate(1.15);
 }
 .hero-photo-overlay {
@@ -1214,7 +1222,7 @@ html { scrollbar-width: thin; scrollbar-color: rgba(129,140,248,0.2) var(--bg); 
 }
 .skill-card-icon i { font-size: 0.8rem; color: var(--accent); }
 .skill-icon-cyan { background: rgba(34,211,238,0.08); border-color: rgba(34,211,238,0.15); }
-.skill-icon-cyan i { color: var(--cyan); }
+.skill-icon-cyan i { color: var (--cyan); }
 .skill-icon-emerald { background: rgba(52,211,153,0.08); border-color: rgba(52,211,153,0.15); }
 .skill-icon-emerald i { color: var(--emerald); }
 .skill-icon-amber { background: rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.15); }
@@ -1384,7 +1392,7 @@ html { scrollbar-width: thin; scrollbar-color: rgba(129,140,248,0.2) var(--bg); 
 
 .project-stack { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
 .project-stack span {
-    padding: 3px 8px; border-radius: var(--radius-full); font-size: 0.62rem; font-weight: 500;
+    padding: 3px 8px; border-radius: var (--radius-full); font-size: 0.62rem; font-weight: 500;
     background: rgba(129,140,248,0.06); border: 1px solid rgba(129,140,248,0.1); color: var(--text-2);
 }
 
@@ -1500,7 +1508,7 @@ html { scrollbar-width: thin; scrollbar-color: rgba(129,140,248,0.2) var(--bg); 
 }
 .edu-timeline::before {
     content: ''; position: absolute; left: 11px; top: 0; bottom: 0; width: 2px;
-    background: linear-gradient(180deg, var(--accent), var(--purple), transparent);
+    background: linear-gradient(180deg, var(--accent), var (--purple), transparent);
 }
 .edu-item {
     position: relative;
@@ -2310,6 +2318,10 @@ html { scrollbar-width: thin; scrollbar-color: rgba(129,140,248,0.2) var(--bg); 
     .hero-hud { display: none; }
     .hero-hologram-ring { display: none; }
     .hero-matrix { display: none; }
+    .hero-orbit-dot { display: none; }
+    .hero-ambient-particles { opacity: 0.5; }
+    .hero-scroll-indicator { bottom: 20px; }
+    .stp-spotlight .project-featured-badge { font-size: 0.6rem; padding: 4px 12px; }
 }
 
 @media (max-width: 480px) {
@@ -2360,4 +2372,250 @@ html { scrollbar-width: thin; scrollbar-color: rgba(129,140,248,0.2) var(--bg); 
     .section-particles-canvas, .mobile-fab, .scroll-mascot, .nikhil-bot { display: none !important; }
     body { background: #fff; color: #000; }
     .section { padding: 20px 0; }
+}
+
+/* ==================== HERO AMBIENT PARTICLES ==================== */
+.hero-ambient-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+.ambient-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    animation: ambientFloat 12s ease-in-out infinite;
+}
+.ap-1 { left: 10%; top: 20%; animation-delay: 0s; background: var(--accent); }
+.ap-2 { left: 25%; top: 60%; animation-delay: 2s; background: var(--purple); width: 3px; height: 3px; }
+.ap-3 { left: 55%; top: 15%; animation-delay: 4s; background: var(--cyan); width: 5px; height: 5px; }
+.ap-4 { left: 75%; top: 45%; animation-delay: 6s; background: var(--emerald); width: 3px; height: 3px; }
+.ap-5 { left: 85%; top: 70%; animation-delay: 8s; background: var(--amber); }
+.ap-6 { left: 40%; top: 80%; animation-delay: 10s; background: var(--rose); width: 3px; height: 3px; }
+@keyframes ambientFloat {
+    0% { opacity: 0; transform: translateY(0) scale(0); }
+    10% { opacity: 0.6; transform: translateY(-20px) scale(1); }
+    50% { opacity: 0.3; transform: translateY(-80px) scale(0.8); }
+    90% { opacity: 0.5; transform: translateY(-150px) scale(1.2); }
+    100% { opacity: 0; transform: translateY(-200px) scale(0); }
+}
+
+/* ==================== HERO ORBIT DOTS ==================== */
+.hero-orbit-dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    z-index: 5;
+    pointer-events: none;
+}
+.hero-orbit-dot-1 {
+    background: var(--cyan);
+    box-shadow: 0 0 12px rgba(34,211,238,0.8), 0 0 30px rgba(34,211,238,0.3);
+    animation: orbitDot1 8s linear infinite;
+}
+.hero-orbit-dot-2 {
+    background: var(--purple);
+    box-shadow: 0 0 12px rgba(192,132,252,0.8), 0 0 30px rgba(192,132,252,0.3);
+    width: 5px; height: 5px;
+    animation: orbitDot2 12s linear infinite;
+}
+.hero-orbit-dot-3 {
+    background: var(--emerald);
+    box-shadow: 0 0 10px rgba(52,211,153,0.8), 0 0 25px rgba(52,211,153,0.3);
+    width: 4px; height: 4px;
+    animation: orbitDot3 15s linear infinite reverse;
+}
+@keyframes orbitDot1 {
+    0% { top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(0deg) translateX(clamp(110px,14vw,150px)); }
+    100% { top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(360deg) translateX(clamp(110px,14vw,150px)); }
+}
+@keyframes orbitDot2 {
+    0% { top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(120deg) translateX(clamp(130px,16vw,175px)); }
+    100% { top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(480deg) translateX(clamp(130px,16vw,175px)); }
+}
+@keyframes orbitDot3 {
+    0% { top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(240deg) translateX(clamp(90px,12vw,125px)); }
+    100% { top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(600deg) translateX(clamp(90px,12vw,125px)); }
+}
+
+/* ==================== HERO PHOTO HEX FRAME ==================== */
+.hero-photo-hex-frame {
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    z-index: 1;
+    background: conic-gradient(
+        from 0deg,
+        rgba(129,140,248,0.3),
+        rgba(192,132,252,0.15),
+        rgba(34,211,238,0.3),
+        rgba(52,211,153,0.15),
+        rgba(129,140,248,0.3)
+    );
+    animation: hexFrameRotate 10s linear infinite;
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+}
+@keyframes hexFrameRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ==================== HERO SCROLL INDICATOR ==================== */
+.hero-scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 5;
+    animation: mnc-fade-up 0.8s var(--ease) 4.5s both;
+}
+.hero-scroll-indicator span {
+    font-size: 0.58rem;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 600;
+}
+.hero-scroll-line {
+    width: 1px;
+    height: 40px;
+    background: rgba(129,140,248,0.15);
+    position: relative;
+    overflow: hidden;
+    border-radius: 1px;
+}
+.hero-scroll-dot {
+    width: 3px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 2px;
+    position: absolute;
+    left: -1px;
+    animation: scrollDotDrop 2s ease-in-out infinite;
+}
+@keyframes scrollDotDrop {
+    0% { top: -10px; opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { top: 40px; opacity: 0; }
+}
+
+/* ==================== STP LIVE INDICATOR ==================== */
+.stp-live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 12px;
+    border-radius: var(--radius-full);
+    background: rgba(52,211,153,0.06);
+    border: 1px solid rgba(52,211,153,0.15);
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--emerald);
+    margin-bottom: 10px;
+}
+.stp-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--emerald);
+    box-shadow: 0 0 8px rgba(52,211,153,0.6);
+    animation: stpLivePulse 1.5s ease-in-out infinite;
+}
+@keyframes stpLivePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* ==================== STP CTA GROUP ==================== */
+.stp-cta-group {
+    margin-top: 8px;
+}
+
+/* ==================== STP KPI ENHANCED ==================== */
+.stp-kpi {
+    background: rgba(34,211,238,0.04);
+    border-color: rgba(34,211,238,0.12);
+    transition: all 0.3s var(--ease);
+}
+.stp-kpi:hover {
+    background: rgba(34,211,238,0.08);
+    border-color: rgba(34,211,238,0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(34,211,238,0.1);
+}
+
+/* ==================== STP BORDER GLOW ==================== */
+.stp-border-glow {
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    z-index: -1;
+    background: linear-gradient(135deg, rgba(34,211,238,0.15), rgba(52,211,153,0.1), transparent);
+    filter: blur(20px);
+    opacity: 0;
+    transition: opacity 0.5s var(--ease);
+    pointer-events: none;
+}
+.project-featured.stp-spotlight:hover .stp-border-glow {
+    opacity: 1;
+}
+
+/* ==================== BRIGHTCHAMPS LOGO ==================== */
+.bc-logo-actual {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    object-fit: contain;
+    background: #fff;
+    padding: 4px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+
+/* ==================== ENHANCED PHOTO ON HERO ==================== */
+.hero-photo {
+    border: none;
+    box-shadow: 
+        0 0 0 3px rgba(129,140,248,0.3),
+        0 0 0 6px rgba(129,140,248,0.1),
+        0 0 60px rgba(129,140,248,0.15),
+        0 0 120px rgba(192,132,252,0.08);
+}
+.hero-photo:hover {
+    box-shadow: 
+        0 0 0 3px rgba(129,140,248,0.5),
+        0 0 0 6px rgba(129,140,248,0.2),
+        0 0 80px rgba(129,140,248,0.25),
+        0 0 160px rgba(192,132,252,0.15);
+}
+
+/* ==================== SECTION ILLUSTRATIONS RESPONSIVE ==================== */
+.section-illus-skills svg { width: 180px; height: 40px; }
+.section-illus-exp svg { width: 140px; height: 40px; }
+.section-illus-projects svg { width: 200px; height: 45px; }
+.section-illus-ach svg { width: 140px; height: 45px; }
+.section-illus-edu svg { width: 160px; height: 45px; }
+.section-illus-contact svg { width: 140px; height: 40px; }
+.section-illus-value svg { width: 160px; height: 40px; }
+.section-illus-about svg { width: 120px; height: 40px; }
+
+/* ==================== PROJECT LABEL CYAN ==================== */
+.project-label-cyan {
+    color: var(--cyan);
+}
+
+/* ==================== EXP RECOMMENDATION LINK ==================== */
+.exp-rec-link-wrap {
+    margin-top: 16px;
 }

@@ -86,6 +86,15 @@
         <div class="hero-blob hero-blob-3"></div>
         <div class="hero-grid"></div>
         <canvas class="hero-canvas" id="heroCanvas"></canvas>
+        <!-- Hero Ambient Particles -->
+        <div class="hero-ambient-particles">
+            <span class="ambient-particle ap-1"></span>
+            <span class="ambient-particle ap-2"></span>
+            <span class="ambient-particle ap-3"></span>
+            <span class="ambient-particle ap-4"></span>
+            <span class="ambient-particle ap-5"></span>
+            <span class="ambient-particle ap-6"></span>
+        </div>
 
         <div class="hero-content">
             <!-- Text Side -->
@@ -163,11 +172,18 @@
             <div class="hero-visual" data-depth="hero-visual">
                 <div class="hero-photo-container">
                     <div class="hero-photo-light-layer"></div>
+                    <!-- Hexagonal accent frame -->
+                    <div class="hero-photo-hex-frame"></div>
                     <img src="assets/img/nikhil-profile.jpeg" alt="Nikhil Jaggi" class="hero-photo" loading="eager">
                     <div class="hero-photo-overlay"></div>
                     <div class="hero-photo-ring hero-photo-ring-1"></div>
                     <div class="hero-photo-ring hero-photo-ring-2"></div>
+                    <div class="hero-photo-ring hero-photo-ring-3"></div>
                     <div class="hero-photo-glow"></div>
+                    <!-- Orbiting energy dots -->
+                    <div class="hero-orbit-dot hero-orbit-dot-1"></div>
+                    <div class="hero-orbit-dot hero-orbit-dot-2"></div>
+                    <div class="hero-orbit-dot hero-orbit-dot-3"></div>
 
                     <!-- Floating Tech Badges -->
                     <div class="photo-badge photo-badge-1"><i class="fab fa-python"></i></div>
@@ -177,6 +193,14 @@
                     <div class="photo-badge photo-badge-5"><i class="fas fa-database"></i></div>
                     <div class="photo-badge photo-badge-6"><i class="fas fa-robot"></i></div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="hero-scroll-indicator">
+            <span>Scroll</span>
+            <div class="hero-scroll-line">
+                <div class="hero-scroll-dot"></div>
             </div>
         </div>
     </section>
@@ -475,13 +499,8 @@
                 <div class="exp-card" data-animate="fade-up" data-tilt>
                     <div class="exp-card-left">
                         <div class="exp-company-logo">
-                            <svg class="exp-logo-img bc-logo-svg" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="56" height="56" rx="12" fill="url(#bcGrad)"/>
-                                <defs><linearGradient id="bcGrad" x1="0" y1="0" x2="56" y2="56"><stop stop-color="#FF6B35"/><stop offset="1" stop-color="#F7931E"/></linearGradient></defs>
-                                <text x="28" y="24" text-anchor="middle" fill="#fff" font-size="11" font-weight="800" font-family="sans-serif">Bright</text>
-                                <text x="28" y="38" text-anchor="middle" fill="#fff" font-size="11" font-weight="800" font-family="sans-serif">Champs</text>
-                                <circle cx="44" cy="12" r="4" fill="#FFD700" opacity="0.9" class="bc-sparkle"/>
-                            </svg>
+                            <img src="assets/img/brightchamps-logo.png" alt="BrightChamps" class="exp-logo-img bc-logo-actual" onerror="this.onerror=null; this.src='https://brightchamps.com/blog/wp-content/uploads/2023/09/Bright-Champs-Logo.webp';">
+                            <div class="bc-logo-fallback" style="display:none; width:56px; height:56px; border-radius:12px; background:linear-gradient(135deg,#4F46E5,#7C3AED); align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:0.55rem; text-align:center; line-height:1.2; padding:4px;">Bright<br>Champs</div>
                             <div class="exp-logo-ring"></div>
                             <div class="exp-logo-particle exp-logo-p1"><i class="fas fa-code"></i></div>
                             <div class="exp-logo-particle exp-logo-p2"><i class="fas fa-laptop-code"></i></div>
@@ -508,10 +527,7 @@
                             <li>Adapted teaching methodologies for diverse age groups and proficiency levels</li>
                             <li>Recognized with an official <strong>recommendation letter</strong> for outstanding performance</li>
                         </ul>
-                        <div class="exp-tags">
-                            <span>Teaching</span><span>Programming</span><span>Mentorship</span><span>Communication</span><span>Curriculum Design</span>
-                        </div>
-                        <div style="margin-top: 16px;">
+                        <div class="exp-rec-link-wrap">
                             <a href="https://drive.google.com/file/d/1N7JAjFvC3ukuHmFINtQsIIv_HkjYL3aJ/view?usp=sharing" target="_blank" rel="noopener" class="btn btn-glass btn-sm"><i class="fas fa-certificate"></i> View Recommendation Letter</a>
                         </div>
                     </div>
@@ -557,6 +573,8 @@
             <!-- Featured Project — Student Task Platform (PRIMARY) -->
             <div class="project-featured stp-spotlight" data-animate="fade-up" data-tilt>
                 <div class="project-featured-badge">★ Primary Project</div>
+                <!-- STP animated border -->
+                <div class="stp-border-glow"></div>
                 <div class="project-featured-visual">
                     <div class="project-browser">
                         <div class="browser-bar">
@@ -612,21 +630,24 @@
                     </div>
                 </div>
                 <div class="project-featured-content">
-                    <span class="project-label" style="color: var(--cyan);"><i class="fas fa-rocket"></i> Featured Project — Full-Stack Platform</span>
+                    <span class="project-label project-label-cyan"><i class="fas fa-rocket"></i> Featured Project — Full-Stack Platform</span>
                     <h3>Student Task Platform</h3>
+                    <div class="stp-live-indicator"><span class="stp-live-dot"></span> Live & Active</div>
                     <div class="project-desc-box">
                         <p>A campus task marketplace enabling <strong>cost-effective outsourcing</strong> for students. Post tasks, earn money by completing them, and get <strong>certified for skills</strong>. Built with modern frontend stack using <strong>TypeScript, React &amp; v0 by Vercel</strong>.</p>
                     </div>
                     <div class="project-kpis">
-                        <div class="project-kpi"><span class="kpi-val">React</span><span class="kpi-label">Framework</span></div>
-                        <div class="project-kpi"><span class="kpi-val">TS</span><span class="kpi-label">TypeScript</span></div>
-                        <div class="project-kpi"><span class="kpi-val">v0</span><span class="kpi-label">Vercel AI</span></div>
-                        <div class="project-kpi"><span class="kpi-val">✓</span><span class="kpi-label">Certification</span></div>
+                        <div class="project-kpi stp-kpi"><span class="kpi-val">React</span><span class="kpi-label">Framework</span></div>
+                        <div class="project-kpi stp-kpi"><span class="kpi-val">TS</span><span class="kpi-label">TypeScript</span></div>
+                        <div class="project-kpi stp-kpi"><span class="kpi-val">v0</span><span class="kpi-label">Vercel AI</span></div>
+                        <div class="project-kpi stp-kpi"><span class="kpi-val">✓</span><span class="kpi-label">Certification</span></div>
                     </div>
                     <div class="project-stack">
                         <span>TypeScript</span><span>React</span><span>CSS</span><span>v0 (Vercel)</span><span>GitHub</span>
                     </div>
-                    <a href="https://github.com/usernamejaggi/v0-student-task-platform-ui.git" target="_blank" rel="noopener" class="btn btn-primary btn-sm"><i class="fab fa-github"></i> View on GitHub</a>
+                    <div class="stp-cta-group">
+                        <a href="https://github.com/usernamejaggi/v0-student-task-platform-ui.git" target="_blank" rel="noopener" class="btn btn-primary btn-sm"><i class="fab fa-github"></i> View on GitHub</a>
+                    </div>
                 </div>
             </div>
 
