@@ -11,11 +11,13 @@
     const preloaderPercent = document.getElementById('preloaderPercent');
 
     function animatePreloader() {
-        const duration = 2000;
+        // Apple/Vercel aesthetic: fast, snappy preloading
+        const duration = 1000;
         const start = performance.now();
         function tick(now) {
             const p = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - p, 3);
+            // Expo out easing for snappy feel
+            const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
             if (preloaderPercent) preloaderPercent.textContent = Math.floor(eased * 100) + '%';
             if (p < 1) requestAnimationFrame(tick);
         }
@@ -29,7 +31,7 @@
             preloader?.classList.add('loaded');
             document.body.style.overflow = '';
             initAllAnimations();
-        }, 2200);
+        }, 1200);
     });
 
     // ==================== NAVBAR ====================
@@ -260,6 +262,17 @@
         setTimeout(type, 3000);
     }
 
+    // ==================== KEYBOARD HINT ====================
+    let keysInit = false;
+    window.addEventListener('keydown', (e) => {
+        if (!keysInit && e.key === '/') {
+            const h = document.getElementById('kbdHint');
+            if (h) h.classList.remove('visible');
+            keysInit = true;
+            document.querySelector('.search-input')?.focus(); // Optional integration
+        }
+    });
+
     // ==================== SCROLL REVEAL ====================
     function initScrollReveal() {
         // All elements that need .in-view class for CSS animations
@@ -292,19 +305,17 @@
         const allEls = document.querySelectorAll(selectors.join(','));
         if (!allEls.length) return;
 
-        // Use a lower threshold for earlier triggering and smoother feel
+        // Apple/Vercel aesthetic: subtle, smooth scroll reveals, trigger early.
         const obs = new IntersectionObserver((entries) => {
             entries.forEach(e => {
                 if (e.isIntersecting) {
                     const delay = parseInt(e.target.dataset.delay) || 0;
                     
-                    // Use requestAnimationFrame for buttery smooth timing
                     requestAnimationFrame(() => {
                         setTimeout(() => {
                             e.target.classList.add('in-view');
                             e.target.classList.add('animated');
 
-                            // Trigger skill bar width
                             if (e.target.classList.contains('skill-bar-fill')) {
                                 const w = e.target.dataset.width;
                                 if (w) e.target.style.width = w + '%';
@@ -315,11 +326,15 @@
                 }
             });
         }, { 
-            threshold: 0.05, 
-            rootMargin: '0px 0px -60px 0px' 
+            threshold: 0.1, 
+            rootMargin: '0px 0px -50px 0px' 
         });
 
-        allEls.forEach(el => obs.observe(el));
+        allEls.forEach(el => {
+            // Initial transform and opacity logic handled by CSS. 
+            // We just observe and add the 'in-view' class.
+            obs.observe(el);
+        });
     }
 
     // ==================== SKILL BARS ====================
@@ -515,12 +530,13 @@
                 const rect = el.getBoundingClientRect();
                 const x = (e.clientX - rect.left) / rect.width - 0.5;
                 const y = (e.clientY - rect.top) / rect.height - 0.5;
-                el.style.transform = `perspective(800px) rotateX(${-y * 6}deg) rotateY(${x * 6}deg) translateY(-4px)`;
-                el.style.transition = 'transform 0.1s ease-out';
+                // Vercel style: extremely subtle and smooth tilt
+                el.style.transform = `perspective(1000px) rotateX(${-y * 4}deg) rotateY(${x * 4}deg) scale3d(1.02, 1.02, 1.02)`;
+                el.style.transition = 'transform 0.15s cubic-bezier(0.2, 0, 0, 1)';
             });
             el.addEventListener('mouseleave', () => {
                 el.style.transform = '';
-                el.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+                el.style.transition = 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
             });
         });
     }
@@ -575,57 +591,69 @@
         const isMobile = window.innerWidth <= 768;
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-        gsap.defaults({ ease: 'power3.out', duration: 1 });
+        // Apple/Vercel feel: Snappy expo easing with high duration for smoothness
+        gsap.defaults({ ease: 'expo.out', duration: 1.5 });
 
         // NOTE: CSS handles all opacity/transform reveals via .in-view
-        // GSAP only handles parallax depth effects & scrub animations (no opacity/transform conflicts)
+        // GSAP only handles parallax depth effects & scrub animations
 
         // ===== PARALLAX DEPTH on hero blobs & content =====
         if (!isMobile) {
             gsap.to('.hero-blob-1', {
-                y: -80, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 }
+                y: -150, scale: 1.1, scrub: 1, 
+                scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.5 }
             });
             gsap.to('.hero-blob-2', {
-                y: -50, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 }
+                y: -100, scale: 1.1, scrub: 1,
+                scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.5 }
+            });
+
+            // Parallax the Hero Content for a "floating" feel on scroll.
+            gsap.to('.hero-content', {
+                y: 100, opacity: 0,
+                scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 }
             });
 
             // Photo ring speed-up on scroll
             gsap.to('.hero-photo-ring', {
                 rotation: 360, ease: 'none',
-                scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 2 }
+                scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 2.5 }
             });
         }
 
         // ===== About photo spotlight following scroll =====
         if (!isMobile) {
             gsap.to('.about-photo-spotlight', {
-                x: 30, y: 20,
-                scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 3 }
+                x: 60, y: 40,
+                scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 2 }
             });
         }
 
         // ===== MARQUEE PARALLAX =====
         if (!isMobile) {
             gsap.to('.marquee-track', {
-                x: -100, scrollTrigger: { trigger: '.marquee-strip', start: 'top bottom', end: 'bottom top', scrub: 2 }
+                x: -300, scrollTrigger: { trigger: '.marquee-strip', start: 'top bottom', end: 'bottom top', scrub: 1.5 }
             });
         }
 
         // ===== SECTION GLOWS MOVEMENT =====
         gsap.utils.toArray('.section-glow').forEach(glow => {
             gsap.to(glow, {
-                x: 50, y: -30, scrollTrigger: { trigger: glow.parentElement, start: 'top bottom', end: 'bottom top', scrub: 3 }
+                x: 100, y: -60, scale: 1.1,
+                scrollTrigger: { trigger: glow.parentElement, start: 'top bottom', end: 'bottom top', scrub: 2 }
             });
         });
 
-        // ===== DEPTH SCALE — cards scale slightly as they scroll through viewport =====
+        // ===== HIGH-END CARD PARALLAX (Vercel Style) =====
+        // Instead of just scaling, add a slight Y parallax as you scroll past them
         if (!isMobile) {
             gsap.utils.toArray('.value-card, .skill-card, .project-card, .ach-card, .edu-card-apple').forEach(card => {
+                // Subtle scale up as it comes in
                 gsap.fromTo(card,
-                    { filter: 'brightness(0.92)' },
+                    { scale: 0.95 },
                     {
-                        filter: 'brightness(1)',
-                        scrollTrigger: { trigger: card, start: 'top 90%', end: 'top 50%', scrub: 1 }
+                        scale: 1,
+                        scrollTrigger: { trigger: card, start: 'top 95%', end: 'top 40%', scrub: 1 }
                     }
                 );
             });
