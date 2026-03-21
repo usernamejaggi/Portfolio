@@ -34,12 +34,6 @@
 </head>
 <body>
 
-    <!-- Noise Overlay -->
-    <div class="noise"></div>
-
-    <!-- Section Background Canvases -->
-    <canvas class="section-bg-canvas" id="sectionBgCanvas"></canvas>
-
     <!-- Preloader -->
     <div class="preloader" id="preloader">
         <div class="preloader-inner">
@@ -80,22 +74,6 @@
 
     <!-- ===== HERO ===== -->
     <section class="hero" id="hero">
-        <!-- Background Elements -->
-        <div class="hero-blob hero-blob-1"></div>
-        <div class="hero-blob hero-blob-2"></div>
-        <div class="hero-blob hero-blob-3"></div>
-        <div class="hero-grid"></div>
-        <canvas class="hero-canvas" id="heroCanvas"></canvas>
-        <!-- Hero Ambient Particles -->
-        <div class="hero-ambient-particles">
-            <span class="ambient-particle ap-1"></span>
-            <span class="ambient-particle ap-2"></span>
-            <span class="ambient-particle ap-3"></span>
-            <span class="ambient-particle ap-4"></span>
-            <span class="ambient-particle ap-5"></span>
-            <span class="ambient-particle ap-6"></span>
-        </div>
-
         <div class="hero-content">
             <!-- Text Side -->
             <div class="hero-text">
@@ -172,27 +150,8 @@
             <div class="hero-visual" data-depth="hero-visual">
                 <div class="hero-photo-container">
                     <div class="hero-photo-light-layer"></div>
-                    <!-- Hexagonal accent frame -->
-                    <div class="hero-photo-hex-frame"></div>
                     <img src="assets/img/nikhil-profile.jpeg" alt="Nikhil Jaggi" class="hero-photo" loading="eager">
-                    <div class="hero-photo-overlay"></div>
-                    <div class="hero-photo-ring hero-photo-ring-1"></div>
-                    <div class="hero-photo-ring hero-photo-ring-2"></div>
-                    <div class="hero-photo-ring hero-photo-ring-3"></div>
-                    <div class="hero-photo-glow"></div>
-                    <!-- Orbiting energy dots -->
-                    <div class="hero-orbit-dot hero-orbit-dot-1"></div>
-                    <div class="hero-orbit-dot hero-orbit-dot-2"></div>
-                    <div class="hero-orbit-dot hero-orbit-dot-3"></div>
-
-                    <!-- Floating Tech Badges -->
-                    <div class="photo-badge photo-badge-1"><i class="fab fa-python"></i></div>
-                    <div class="photo-badge photo-badge-2"><i class="fas fa-brain"></i></div>
-                    <div class="photo-badge photo-badge-3"><i class="fab fa-react"></i></div>
-                    <div class="photo-badge photo-badge-4"><i class="fab fa-java"></i></div>
-                    <div class="photo-badge photo-badge-5"><i class="fas fa-database"></i></div>
-                    <div class="photo-badge photo-badge-6"><i class="fas fa-robot"></i></div>
-                </div>
+                    </div>
             </div>
         </div>
 
@@ -231,27 +190,12 @@
 
     <!-- ===== ABOUT ===== -->
     <section class="section" id="about">
-        <div class="section-glow section-glow-purple"></div>
-        <canvas class="section-particles-canvas" data-section="about" data-color="129,140,248"></canvas>
         <div class="container">
             <div class="section-header" data-animate="fade-up">
                 <span class="section-num">01 // ABOUT</span>
                 <h2 class="section-title">About <span class="text-gradient">Me</span></h2>
                 <div class="section-line"></div>
-                <div class="section-illus section-illus-about">
-                    <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="20" cy="20" r="12" fill="rgba(129,140,248,0.08)" stroke="#818cf8" stroke-width="0.8" class="illus-float if-1"/>
-                        <circle cx="20" cy="20" r="5" fill="rgba(129,140,248,0.15)"/>
-                        <text x="20" y="23" text-anchor="middle" fill="#818cf8" font-size="6" font-weight="700">👤</text>
-                        <line x1="32" y1="20" x2="48" y2="20" stroke="#818cf8" stroke-width="0.5" opacity="0.3" stroke-dasharray="2 2" class="illus-dash"/>
-                        <circle cx="60" cy="20" r="10" fill="rgba(192,132,252,0.08)" stroke="#c084fc" stroke-width="0.8" class="illus-float if-2"/>
-                        <text x="60" y="23" text-anchor="middle" fill="#c084fc" font-size="6" font-weight="700">🧠</text>
-                        <line x1="70" y1="20" x2="86" y2="20" stroke="#c084fc" stroke-width="0.5" opacity="0.3" stroke-dasharray="2 2" class="illus-dash"/>
-                        <circle cx="100" cy="20" r="10" fill="rgba(34,211,238,0.08)" stroke="#22d3ee" stroke-width="0.8" class="illus-float if-3"/>
-                        <text x="100" y="23" text-anchor="middle" fill="#22d3ee" font-size="6" font-weight="700">💡</text>
-                    </svg>
                 </div>
-            </div>
             <div class="about-grid">
                 <div class="about-left" data-animate="fade-right">
                     <div class="about-photo-wrap" data-tilt>
@@ -267,8 +211,8 @@
                     </div>
                 </div>
                 <div class="about-right" data-animate="fade-left">
-                    <h3 class="about-headline">Turning complex data into <span class="text-gradient">intelligent solutions</span></h3>
-                    <p class="about-lead">Passionate about building <em>AI-driven systems</em> that solve real-world problems — from recommendation engines to NLP pipelines.</p>
+                    <h3 class="about-headline">Turning complex data into intelligent solutions</h3>
+                    <p class="about-lead">Passionate about building AI-driven systems that solve real-world problems — from recommendation engines to NLP pipelines.</p>
                     <p>I'm a <strong>B.Tech Computer Science</strong> student at <strong>Lovely Professional University</strong> with a deep passion for AI/ML. My journey spans from developing recommendation systems using <strong>KNN & K-Means clustering</strong>, to building platforms powered by <strong>Google Generative AI</strong>, to solving <strong>250+ coding problems</strong> on competitive platforms.</p>
                     <p>As a former <strong>Coding Instructor at BrightChamps</strong>, I conducted <strong>300+ live classes globally</strong> — sharpening my ability to communicate complex technical concepts with clarity.</p>
 
@@ -307,26 +251,12 @@
 
     <!-- ===== WHAT I BRING ===== -->
     <section class="section section-alt" id="value">
-        <div class="section-glow section-glow-cyan"></div>
-        <canvas class="section-particles-canvas" data-section="value" data-color="34,211,238"></canvas>
         <div class="container">
             <div class="section-header" data-animate="fade-up">
                 <span class="section-num">— // VALUE</span>
                 <h2 class="section-title">What I <span class="text-gradient">Bring</span></h2>
                 <div class="section-line"></div>
-                <div class="section-illus section-illus-value">
-                    <svg viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="5" y="8" width="30" height="24" rx="6" fill="rgba(129,140,248,0.06)" stroke="#818cf8" stroke-width="0.6" class="illus-float if-1"/>
-                        <text x="20" y="24" text-anchor="middle" fill="#818cf8" font-size="10">⚡</text>
-                        <rect x="45" y="8" width="30" height="24" rx="6" fill="rgba(34,211,238,0.06)" stroke="#22d3ee" stroke-width="0.6" class="illus-float if-2"/>
-                        <text x="60" y="24" text-anchor="middle" fill="#22d3ee" font-size="10">🔧</text>
-                        <rect x="85" y="8" width="30" height="24" rx="6" fill="rgba(52,211,153,0.06)" stroke="#34d399" stroke-width="0.6" class="illus-float if-3"/>
-                        <text x="100" y="24" text-anchor="middle" fill="#34d399" font-size="10">🚀</text>
-                        <rect x="125" y="8" width="30" height="24" rx="6" fill="rgba(251,191,36,0.06)" stroke="#fbbf24" stroke-width="0.6" class="illus-float if-4"/>
-                        <text x="140" y="24" text-anchor="middle" fill="#fbbf24" font-size="10">💬</text>
-                    </svg>
                 </div>
-            </div>
             <div class="value-cards">
                 <div class="value-card" data-animate="fade-up" data-delay="0" data-tilt>
                     <div class="value-card-icon"><i class="fas fa-brain"></i></div>
@@ -362,32 +292,13 @@
 
     <!-- ===== SKILLS ===== -->
     <section class="section" id="skills">
-        <div class="section-glow section-glow-purple"></div>
-        <canvas class="section-particles-canvas" data-section="skills" data-color="192,132,252"></canvas>
         <div class="container">
             <div class="section-header" data-animate="fade-up">
                 <span class="section-num">02 // SKILLS</span>
                 <h2 class="section-title">Skills & <span class="text-gradient">Technologies</span></h2>
                 <div class="section-line"></div>
                 <p class="section-desc">Tools and technologies I work with daily</p>
-                <div class="section-illus section-illus-skills">
-                    <svg viewBox="0 0 180 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="20" r="14" fill="rgba(129,140,248,0.06)" stroke="#818cf8" stroke-width="0.6" stroke-dasharray="3 2" class="illus-spin"/>
-                        <text x="30" y="24" text-anchor="middle" fill="#818cf8" font-size="11">🐍</text>
-                        <circle cx="70" cy="20" r="14" fill="rgba(192,132,252,0.06)" stroke="#c084fc" stroke-width="0.6" stroke-dasharray="3 2" class="illus-spin-reverse"/>
-                        <text x="70" y="24" text-anchor="middle" fill="#c084fc" font-size="11">☕</text>
-                        <circle cx="110" cy="20" r="14" fill="rgba(34,211,238,0.06)" stroke="#22d3ee" stroke-width="0.6" stroke-dasharray="3 2" class="illus-spin"/>
-                        <text x="110" y="24" text-anchor="middle" fill="#22d3ee" font-size="11">⚛️</text>
-                        <circle cx="150" cy="20" r="14" fill="rgba(52,211,153,0.06)" stroke="#34d399" stroke-width="0.6" stroke-dasharray="3 2" class="illus-spin-reverse"/>
-                        <text x="150" y="24" text-anchor="middle" fill="#34d399" font-size="11">🤖</text>
-                    </svg>
                 </div>
-            </div>
-
-            <div class="skills-sphere-section">
-                <canvas id="skillSphere" class="skill-sphere-canvas"></canvas>
-                <div class="skills-sphere-center"><i class="fas fa-atom"></i>Tech Stack</div>
-            </div>
 
             <div class="skills-grid">
                 <div class="skill-card" data-animate="fade-up" data-delay="0" data-tilt>
@@ -473,28 +384,12 @@
 
     <!-- ===== EXPERIENCE ===== -->
     <section class="section section-alt" id="experience">
-        <div class="section-glow section-glow-cyan"></div>
-        <canvas class="section-particles-canvas" data-section="experience" data-color="52,211,153"></canvas>
         <div class="container">
             <div class="section-header" data-animate="fade-up">
                 <span class="section-num">03 // EXPERIENCE</span>
                 <h2 class="section-title">Work <span class="text-gradient">Experience</span></h2>
                 <div class="section-line"></div>
-                <div class="section-illus section-illus-exp">
-                    <svg viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="10" y="10" width="24" height="20" rx="4" fill="rgba(129,140,248,0.08)" stroke="#818cf8" stroke-width="0.6" class="illus-float if-1"/>
-                        <text x="22" y="24" text-anchor="middle" fill="#818cf8" font-size="9">💼</text>
-                        <path d="M40 20 L55 20" stroke="rgba(129,140,248,0.2)" stroke-width="1" stroke-dasharray="2 2" class="illus-dash"/>
-                        <circle r="2" fill="#818cf8" opacity="0.6"><animateMotion dur="2s" repeatCount="indefinite" path="M40,20 L55,20"/></circle>
-                        <rect x="60" y="10" width="24" height="20" rx="4" fill="rgba(34,211,238,0.08)" stroke="#22d3ee" stroke-width="0.6" class="illus-float if-2"/>
-                        <text x="72" y="24" text-anchor="middle" fill="#22d3ee" font-size="9">👨‍🏫</text>
-                        <path d="M90 20 L105 20" stroke="rgba(34,211,238,0.2)" stroke-width="1" stroke-dasharray="2 2" class="illus-dash"/>
-                        <circle r="2" fill="#22d3ee" opacity="0.6"><animateMotion dur="2s" repeatCount="indefinite" path="M90,20 L105,20" begin="0.5s"/></circle>
-                        <rect x="110" y="10" width="24" height="20" rx="4" fill="rgba(52,211,153,0.08)" stroke="#34d399" stroke-width="0.6" class="illus-float if-3"/>
-                        <text x="122" y="24" text-anchor="middle" fill="#34d399" font-size="9">⭐</text>
-                    </svg>
                 </div>
-            </div>
             <div class="exp-showcase">
                 <div class="exp-card" data-animate="fade-up" data-tilt>
                     <div class="exp-card-left">
@@ -538,121 +433,100 @@
 
     <!-- ===== PROJECTS ===== -->
     <section class="section" id="projects">
-        <div class="section-glow section-glow-rose"></div>
-        <canvas class="section-particles-canvas" data-section="projects" data-color="251,113,133"></canvas>
         <div class="container">
             <div class="section-header" data-animate="fade-up">
                 <span class="section-num">04 // PROJECTS</span>
                 <h2 class="section-title">Featured <span class="text-gradient">Projects</span></h2>
                 <div class="section-line"></div>
                 <p class="section-desc">End-to-end AI/ML solutions demonstrating real-world problem solving</p>
-                <div class="section-illus section-illus-projects">
-                    <svg viewBox="0 0 200 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="5" y="5" width="55" height="35" rx="6" fill="rgba(129,140,248,0.05)" stroke="#818cf8" stroke-width="0.6" class="illus-float if-1"/>
-                        <rect x="10" y="10" width="45" height="4" rx="2" fill="rgba(129,140,248,0.1)"/>
-                        <rect x="10" y="18" width="30" height="3" rx="1.5" fill="rgba(129,140,248,0.06)"/>
-                        <rect x="10" y="25" width="38" height="3" rx="1.5" fill="rgba(129,140,248,0.04)"/>
-                        <circle cx="48" cy="33" r="4" fill="rgba(129,140,248,0.1)" stroke="#818cf8" stroke-width="0.4"/>
-                        <text x="48" y="36" text-anchor="middle" fill="#818cf8" font-size="5">▶</text>
-                        <rect x="72" y="5" width="55" height="35" rx="6" fill="rgba(34,211,238,0.05)" stroke="#22d3ee" stroke-width="0.6" class="illus-float if-2"/>
-                        <rect x="77" y="10" width="45" height="4" rx="2" fill="rgba(34,211,238,0.1)"/>
-                        <rect x="77" y="18" width="35" height="3" rx="1.5" fill="rgba(34,211,238,0.06)"/>
-                        <rect x="77" y="25" width="40" height="3" rx="1.5" fill="rgba(34,211,238,0.04)"/>
-                        <circle cx="115" cy="33" r="4" fill="rgba(34,211,238,0.1)" stroke="#22d3ee" stroke-width="0.4"/>
-                        <text x="115" y="36" text-anchor="middle" fill="#22d3ee" font-size="5">▶</text>
-                        <rect x="139" y="5" width="55" height="35" rx="6" fill="rgba(251,113,133,0.05)" stroke="#fb7185" stroke-width="0.6" class="illus-float if-3"/>
-                        <rect x="144" y="10" width="45" height="4" rx="2" fill="rgba(251,113,133,0.1)"/>
-                        <rect x="144" y="18" width="32" height="3" rx="1.5" fill="rgba(251,113,133,0.06)"/>
-                        <rect x="144" y="25" width="42" height="3" rx="1.5" fill="rgba(251,113,133,0.04)"/>
-                        <circle cx="182" cy="33" r="4" fill="rgba(251,113,133,0.1)" stroke="#fb7185" stroke-width="0.4"/>
-                        <text x="182" y="36" text-anchor="middle" fill="#fb7185" font-size="5">▶</text>
-                    </svg>
                 </div>
-            </div>
 
-            <!-- Featured Project — Student Task Platform (PRIMARY) -->
-            <div class="project-featured stp-spotlight" data-animate="fade-up" data-tilt>
-                <div class="project-featured-badge">★ Primary Project</div>
-                <!-- STP animated border -->
-                <div class="stp-border-glow"></div>
-                <div class="project-featured-visual">
-                    <div class="project-browser">
-                        <div class="browser-bar">
-                            <div class="browser-dots"><span></span><span></span><span></span></div>
-                            <div class="browser-url"><i class="fas fa-lock"></i> student-task-platform.vercel.app</div>
+            <!-- Horizontal Scroll Wrapper (Apple Style) -->
+            <div class="horizontal-scroll-wrapper">
+                <div class="horizontal-projects-track">
+                    <!-- Featured Project — Student Task Platform (PRIMARY) -->
+                    <div class="project-featured stp-spotlight glass-apple" data-tilt>
+                        <div class="project-featured-badge">★ Primary Project</div>
+                        <!-- STP animated border -->
+                        <div class="stp-border-glow"></div>
+                        <div class="project-featured-visual">
+                            <div class="project-browser">
+                                <div class="browser-bar">
+                                    <div class="browser-dots"><span></span><span></span><span></span></div>
+                                    <div class="browser-url"><i class="fas fa-lock"></i> student-task-platform.vercel.app</div>
+                                </div>
+                                <div class="project-illustration">
+                                    <svg class="project-svg" viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <defs>
+                                            <linearGradient id="stpFeatBg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#22d3ee" stop-opacity="0.15"/><stop offset="100%" stop-color="#34d399" stop-opacity="0.06"/></linearGradient>
+                                            <filter id="stpGlow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                                        </defs>
+                                        <rect width="400" height="280" fill="url(#stpFeatBg)"/>
+                                        <!-- Task cards -->
+                                        <rect x="30" y="40" width="110" height="70" rx="10" fill="rgba(34,211,238,0.08)" stroke="#22d3ee" stroke-width="1.2" class="illus-float if-1"/>
+                                        <text x="85" y="68" text-anchor="middle" fill="#22d3ee" font-size="20">📋</text>
+                                        <rect x="46" y="88" width="78" height="5" rx="2.5" fill="rgba(34,211,238,0.15)"/>
+                                        <text x="85" y="104" text-anchor="middle" fill="#22d3ee" font-size="8" font-weight="700" opacity="0.6">TASK BOARD</text>
+                                        <!-- Center platform hub -->
+                                        <circle cx="200" cy="140" r="55" fill="rgba(52,211,153,0.04)" stroke="#34d399" stroke-width="1" stroke-dasharray="5 3" class="illus-spin"/>
+                                        <circle cx="200" cy="140" r="38" fill="rgba(52,211,153,0.08)" stroke="#34d399" stroke-width="1.5"/>
+                                        <text x="200" y="132" text-anchor="middle" fill="#34d399" font-size="16" font-weight="800" font-family="monospace">STP</text>
+                                        <text x="200" y="150" text-anchor="middle" fill="#34d399" font-size="8" opacity="0.7" font-family="monospace">v0 + React + TS</text>
+                                        <circle r="4" fill="#34d399" filter="url(#stpGlow)"><animateMotion dur="5s" repeatCount="indefinite" path="M200,85 A55,55 0 1,1 199,85"/></circle>
+                                        <!-- User roles -->
+                                        <circle cx="340" cy="60" r="24" fill="rgba(129,140,248,0.06)" stroke="#818cf8" stroke-width="1" class="illus-float if-2"/>
+                                        <text x="340" y="66" text-anchor="middle" fill="#818cf8" font-size="18">👨‍🎓</text>
+                                        <text x="340" y="94" text-anchor="middle" fill="#5c6485" font-size="7" font-weight="600">STUDENT</text>
+                                        <circle cx="355" cy="155" r="24" fill="rgba(251,191,36,0.06)" stroke="#fbbf24" stroke-width="1" class="illus-float if-3"/>
+                                        <text x="355" y="161" text-anchor="middle" fill="#fbbf24" font-size="18">💰</text>
+                                        <text x="355" y="188" text-anchor="middle" fill="#5c6485" font-size="7" font-weight="600">EARN</text>
+                                        <circle cx="330" cy="235" r="22" fill="rgba(192,132,252,0.06)" stroke="#c084fc" stroke-width="1" class="illus-float if-4"/>
+                                        <text x="330" y="241" text-anchor="middle" fill="#c084fc" font-size="16">📜</text>
+                                        <text x="330" y="264" text-anchor="middle" fill="#5c6485" font-size="7" font-weight="600">CERTIFY</text>
+                                        <!-- Connections -->
+                                        <line x1="140" y1="75" x2="162" y2="115" stroke="#22d3ee" stroke-width="1" opacity="0.25" stroke-dasharray="4 3" class="illus-dash"/>
+                                        <line x1="238" y1="110" x2="316" y2="65" stroke="#818cf8" stroke-width="1" opacity="0.25" stroke-dasharray="4 3" class="illus-dash"/>
+                                        <line x1="238" y1="150" x2="331" y2="155" stroke="#fbbf24" stroke-width="1" opacity="0.25" stroke-dasharray="4 3" class="illus-dash"/>
+                                        <line x1="230" y1="170" x2="310" y2="230" stroke="#c084fc" stroke-width="1" opacity="0.25" stroke-dasharray="4 3" class="illus-dash"/>
+                                        <!-- Animated data particles -->
+                                        <circle r="3" fill="#22d3ee" filter="url(#stpGlow)"><animateMotion dur="2s" repeatCount="indefinite" path="M140,75 L162,115"/></circle>
+                                        <circle r="3" fill="#818cf8" filter="url(#stpGlow)"><animateMotion dur="2.2s" repeatCount="indefinite" path="M238,110 L316,65" begin="0.4s"/></circle>
+                                        <circle r="3" fill="#fbbf24" filter="url(#stpGlow)"><animateMotion dur="2.4s" repeatCount="indefinite" path="M238,150 L331,155" begin="0.8s"/></circle>
+                                        <!-- Feature pills -->
+                                        <rect x="30" y="145" width="75" height="20" rx="10" fill="rgba(34,211,238,0.12)" stroke="rgba(34,211,238,0.3)" stroke-width="0.5" class="illus-float if-1"/>
+                                        <text x="67" y="158" text-anchor="middle" fill="#22d3ee" font-size="7" font-weight="700">OUTSOURCE</text>
+                                        <rect x="30" y="175" width="65" height="20" rx="10" fill="rgba(52,211,153,0.12)" stroke="rgba(52,211,153,0.3)" stroke-width="0.5" class="illus-float if-2"/>
+                                        <text x="62" y="188" text-anchor="middle" fill="#34d399" font-size="7" font-weight="700">EARN ₹</text>
+                                        <rect x="30" y="205" width="80" height="20" rx="10" fill="rgba(129,140,248,0.12)" stroke="rgba(129,140,248,0.3)" stroke-width="0.5" class="illus-float if-3"/>
+                                        <text x="70" y="218" text-anchor="middle" fill="#818cf8" font-size="7" font-weight="700">CERTIFICATE</text>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
-                        <div class="project-illustration">
-                            <svg class="project-svg" viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <linearGradient id="stpFeatBg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#22d3ee" stop-opacity="0.15"/><stop offset="100%" stop-color="#34d399" stop-opacity="0.06"/></linearGradient>
-                                    <filter id="stpGlow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                                </defs>
-                                <rect width="400" height="280" fill="url(#stpFeatBg)"/>
-                                <!-- Task cards -->
-                                <rect x="30" y="40" width="110" height="70" rx="10" fill="rgba(34,211,238,0.08)" stroke="#22d3ee" stroke-width="1.2" class="illus-float if-1"/>
-                                <text x="85" y="68" text-anchor="middle" fill="#22d3ee" font-size="20">📋</text>
-                                <rect x="46" y="88" width="78" height="5" rx="2.5" fill="rgba(34,211,238,0.15)"/>
-                                <text x="85" y="104" text-anchor="middle" fill="#22d3ee" font-size="8" font-weight="700" opacity="0.6">TASK BOARD</text>
-                                <!-- Center platform hub -->
-                                <circle cx="200" cy="140" r="55" fill="rgba(52,211,153,0.04)" stroke="#34d399" stroke-width="1" stroke-dasharray="5 3" class="illus-spin"/>
-                                <circle cx="200" cy="140" r="38" fill="rgba(52,211,153,0.08)" stroke="#34d399" stroke-width="1.5"/>
-                                <text x="200" y="132" text-anchor="middle" fill="#34d399" font-size="16" font-weight="800" font-family="monospace">STP</text>
-                                <text x="200" y="150" text-anchor="middle" fill="#34d399" font-size="8" opacity="0.7" font-family="monospace">v0 + React + TS</text>
-                                <circle r="4" fill="#34d399" filter="url(#stpGlow)"><animateMotion dur="5s" repeatCount="indefinite" path="M200,85 A55,55 0 1,1 199,85"/></circle>
-                                <!-- User roles -->
-                                <circle cx="340" cy="60" r="24" fill="rgba(129,140,248,0.06)" stroke="#818cf8" stroke-width="1" class="illus-float if-2"/>
-                                <text x="340" y="66" text-anchor="middle" fill="#818cf8" font-size="18">👨‍🎓</text>
-                                <text x="340" y="94" text-anchor="middle" fill="#5c6485" font-size="7" font-weight="600">STUDENT</text>
-                                <circle cx="355" cy="155" r="24" fill="rgba(251,191,36,0.06)" stroke="#fbbf24" stroke-width="1" class="illus-float if-3"/>
-                                <text x="355" y="161" text-anchor="middle" fill="#fbbf24" font-size="18">💰</text>
-                                <text x="355" y="188" text-anchor="middle" fill="#5c6485" font-size="7" font-weight="600">EARN</text>
-                                <circle cx="330" cy="235" r="22" fill="rgba(192,132,252,0.06)" stroke="#c084fc" stroke-width="1" class="illus-float if-4"/>
-                                <text x="330" y="241" text-anchor="middle" fill="#c084fc" font-size="16">📜</text>
-                                <text x="330" y="264" text-anchor="middle" fill="#5c6485" font-size="7" font-weight="600">CERTIFY</text>
-                                <!-- Connections -->
-                                <line x1="140" y1="75" x2="162" y2="115" stroke="#22d3ee" stroke-width="1" opacity="0.25" stroke-dasharray="4 3" class="illus-dash"/>
-                                <line x1="238" y1="110" x2="316" y2="65" stroke="#818cf8" stroke-width="1" opacity="0.25" stroke-dasharray="4 3" class="illus-dash"/>
-                                <line x1="238" y1="150" x2="331" y2="155" stroke="#fbbf24" stroke-width="1" opacity="0.25" stroke-dasharray="4 3" class="illus-dash"/>
-                                <line x1="230" y1="170" x2="310" y2="230" stroke="#c084fc" stroke-width="1" opacity="0.25" stroke-dasharray="4 3" class="illus-dash"/>
-                                <!-- Animated data particles -->
-                                <circle r="3" fill="#22d3ee" filter="url(#stpGlow)"><animateMotion dur="2s" repeatCount="indefinite" path="M140,75 L162,115"/></circle>
-                                <circle r="3" fill="#818cf8" filter="url(#stpGlow)"><animateMotion dur="2.2s" repeatCount="indefinite" path="M238,110 L316,65" begin="0.4s"/></circle>
-                                <circle r="3" fill="#fbbf24" filter="url(#stpGlow)"><animateMotion dur="2.4s" repeatCount="indefinite" path="M238,150 L331,155" begin="0.8s"/></circle>
-                                <!-- Feature pills -->
-                                <rect x="30" y="145" width="75" height="20" rx="10" fill="rgba(34,211,238,0.12)" stroke="rgba(34,211,238,0.3)" stroke-width="0.5" class="illus-float if-1"/>
-                                <text x="67" y="158" text-anchor="middle" fill="#22d3ee" font-size="7" font-weight="700">OUTSOURCE</text>
-                                <rect x="30" y="175" width="65" height="20" rx="10" fill="rgba(52,211,153,0.12)" stroke="rgba(52,211,153,0.3)" stroke-width="0.5" class="illus-float if-2"/>
-                                <text x="62" y="188" text-anchor="middle" fill="#34d399" font-size="7" font-weight="700">EARN ₹</text>
-                                <rect x="30" y="205" width="80" height="20" rx="10" fill="rgba(129,140,248,0.12)" stroke="rgba(129,140,248,0.3)" stroke-width="0.5" class="illus-float if-3"/>
-                                <text x="70" y="218" text-anchor="middle" fill="#818cf8" font-size="7" font-weight="700">CERTIFICATE</text>
-                            </svg>
+                        <div class="project-featured-content">
+                            <span class="project-label project-label-cyan"><i class="fas fa-rocket"></i> Featured Project — Full-Stack Platform</span>
+                            <h3>Student Task Platform</h3>
+                            <div class="stp-live-indicator"><span class="stp-live-dot"></span> Live & Active</div>
+                            <div class="project-desc-box">
+                                <p>A campus task marketplace enabling <strong>cost-effective outsourcing</strong> for students. Post tasks, earn money by completing them, and get <strong>certified for skills</strong>. Built with modern frontend stack using <strong>TypeScript, React &amp; v0 by Vercel</strong>.</p>
+                            </div>
+                            <div class="project-kpis">
+                                <div class="project-kpi stp-kpi"><span class="kpi-val">React</span><span class="kpi-label">Framework</span></div>
+                                <div class="project-kpi stp-kpi"><span class="kpi-val">TS</span><span class="kpi-label">TypeScript</span></div>
+                                <div class="project-kpi stp-kpi"><span class="kpi-val">v0</span><span class="kpi-label">Vercel AI</span></div>
+                                <div class="project-kpi stp-kpi"><span class="kpi-val">✓</span><span class="kpi-label">Certification</span></div>
+                            </div>
+                            <div class="project-stack">
+                                <span>TypeScript</span><span>React</span><span>CSS</span><span>v0 (Vercel)</span><span>GitHub</span>
+                            </div>
+                            <div class="stp-cta-group">
+                                <a href="https://github.com/usernamejaggi/v0-student-task-platform-ui.git" target="_blank" rel="noopener" class="btn btn-primary btn-sm"><i class="fab fa-github"></i> View on GitHub</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="project-featured-content">
-                    <span class="project-label project-label-cyan"><i class="fas fa-rocket"></i> Featured Project — Full-Stack Platform</span>
-                    <h3>Student Task Platform</h3>
-                    <div class="stp-live-indicator"><span class="stp-live-dot"></span> Live & Active</div>
-                    <div class="project-desc-box">
-                        <p>A campus task marketplace enabling <strong>cost-effective outsourcing</strong> for students. Post tasks, earn money by completing them, and get <strong>certified for skills</strong>. Built with modern frontend stack using <strong>TypeScript, React &amp; v0 by Vercel</strong>.</p>
-                    </div>
-                    <div class="project-kpis">
-                        <div class="project-kpi stp-kpi"><span class="kpi-val">React</span><span class="kpi-label">Framework</span></div>
-                        <div class="project-kpi stp-kpi"><span class="kpi-val">TS</span><span class="kpi-label">TypeScript</span></div>
-                        <div class="project-kpi stp-kpi"><span class="kpi-val">v0</span><span class="kpi-label">Vercel AI</span></div>
-                        <div class="project-kpi stp-kpi"><span class="kpi-val">✓</span><span class="kpi-label">Certification</span></div>
-                    </div>
-                    <div class="project-stack">
-                        <span>TypeScript</span><span>React</span><span>CSS</span><span>v0 (Vercel)</span><span>GitHub</span>
-                    </div>
-                    <div class="stp-cta-group">
-                        <a href="https://github.com/usernamejaggi/v0-student-task-platform-ui.git" target="_blank" rel="noopener" class="btn btn-primary btn-sm"><i class="fab fa-github"></i> View on GitHub</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project Grid -->
-            <div class="projects-grid">
+        
+                    <!-- Project Grid -->
+                    <div class="projects-grid">
                 <div class="project-card" data-animate="fade-up" data-delay="0" data-tilt>
                     <div class="project-card-img">
                         <svg class="project-card-svg" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -737,35 +611,21 @@
                             <span>Python</span><span>KNN</span><span>K-Means</span><span>Scikit-learn</span><span>Pandas</span>
                         </div>
                     </div>
-                </div>
+            </div>
+            <!-- End Horizontal track -->
+            </div>
             </div>
         </div>
     </section>
 
     <!-- ===== ACHIEVEMENTS ===== -->
     <section class="section section-alt" id="achievements">
-        <div class="section-glow section-glow-amber"></div>
-        <canvas class="section-particles-canvas" data-section="achievements" data-color="251,191,36"></canvas>
         <div class="container">
             <div class="section-header" data-animate="fade-up">
                 <span class="section-num">05 // ACHIEVEMENTS</span>
                 <h2 class="section-title">Milestones & <span class="text-gradient">Achievements</span></h2>
                 <div class="section-line"></div>
-                <div class="section-illus section-illus-ach">
-                    <svg viewBox="0 0 140 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M50,8 L55,20 L68,20 L58,28 L62,40 L50,32 L38,40 L42,28 L32,20 L45,20 Z" fill="rgba(251,191,36,0.12)" stroke="#fbbf24" stroke-width="0.8" class="illus-float if-1">
-                            <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
-                        </path>
-                        <path d="M90,12 L93,22 L104,22 L96,28 L99,38 L90,32 L81,38 L84,28 L76,22 L87,22 Z" fill="rgba(129,140,248,0.12)" stroke="#818cf8" stroke-width="0.8" class="illus-float if-2">
-                            <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="1s"/>
-                        </path>
-                        <circle cx="20" cy="24" r="12" fill="rgba(52,211,153,0.08)" stroke="#34d399" stroke-width="0.8" class="illus-float if-3"/>
-                        <text x="20" y="28" text-anchor="middle" fill="#34d399" font-size="11">🏆</text>
-                        <circle cx="120" cy="24" r="12" fill="rgba(192,132,252,0.08)" stroke="#c084fc" stroke-width="0.8" class="illus-float if-4"/>
-                        <text x="120" y="28" text-anchor="middle" fill="#c084fc" font-size="11">🎯</text>
-                    </svg>
                 </div>
-            </div>
 
             <!-- Milestone Timeline -->
             <div class="milestone-timeline">
@@ -853,28 +713,12 @@
 
     <!-- ===== EDUCATION ===== -->
     <section class="section" id="education">
-        <div class="section-glow section-glow-purple"></div>
-        <canvas class="section-particles-canvas" data-section="education" data-color="129,140,248"></canvas>
         <div class="container">
             <div class="section-header" data-animate="fade-up">
                 <span class="section-num">06 // EDUCATION</span>
                 <h2 class="section-title">Academic <span class="text-gradient">Journey</span></h2>
                 <div class="section-line"></div>
-                <div class="section-illus section-illus-edu">
-                    <svg viewBox="0 0 160 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M30,12 L50,4 L70,12 L50,20 Z" fill="rgba(129,140,248,0.1)" stroke="#818cf8" stroke-width="0.6" class="illus-float if-1"/>
-                        <line x1="50" y1="20" x2="50" y2="36" stroke="#818cf8" stroke-width="0.6" opacity="0.4"/>
-                        <rect x="42" y="36" width="16" height="4" rx="2" fill="rgba(129,140,248,0.08)" stroke="#818cf8" stroke-width="0.4"/>
-                        <rect x="85" y="8" width="28" height="32" rx="4" fill="rgba(34,211,238,0.06)" stroke="#22d3ee" stroke-width="0.6" class="illus-float if-2"/>
-                        <rect x="90" y="14" width="18" height="2" rx="1" fill="rgba(34,211,238,0.15)"/>
-                        <rect x="90" y="20" width="14" height="2" rx="1" fill="rgba(34,211,238,0.1)"/>
-                        <rect x="90" y="26" width="16" height="2" rx="1" fill="rgba(34,211,238,0.08)"/>
-                        <rect x="90" y="32" width="12" height="2" rx="1" fill="rgba(34,211,238,0.06)"/>
-                        <circle cx="140" cy="22" r="16" fill="rgba(52,211,153,0.06)" stroke="#34d399" stroke-width="0.6" class="illus-float if-3"/>
-                        <text x="140" y="26" text-anchor="middle" fill="#34d399" font-size="13">🎓</text>
-                    </svg>
                 </div>
-            </div>
 
             <div class="edu-timeline">
                 <div class="edu-item edu-item-primary" data-animate="fade-up" data-delay="0">
@@ -934,8 +778,6 @@
 
     <!-- ===== CERTIFICATES (renamed from Certifications) ===== -->
     <section class="section section-alt" id="certificates">
-        <div class="section-glow section-glow-amber"></div>
-        <canvas class="section-particles-canvas" data-section="certificates" data-color="251,191,36"></canvas>
         <div class="container">
             <div class="section-header" data-animate="fade-up">
                 <span class="section-num">07 // CERTIFICATES</span>
@@ -1048,24 +890,12 @@
 
     <!-- ===== CONTACT ===== -->
     <section class="section" id="contact">
-        <div class="section-glow section-glow-cyan"></div>
-        <canvas class="section-particles-canvas" data-section="contact" data-color="34,211,238"></canvas>
         <div class="container">
             <div class="section-header" data-animate="fade-up">
                 <span class="section-num">08 // CONTACT</span>
                 <h2 class="section-title">Get In <span class="text-gradient">Touch</span></h2>
                 <div class="section-line"></div>
-                <div class="section-illus section-illus-contact">
-                    <svg viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="10" y="10" width="30" height="20" rx="4" fill="rgba(129,140,248,0.06)" stroke="#818cf8" stroke-width="0.6" class="illus-float if-1"/>
-                        <path d="M12 12 L25 22 L38 12" stroke="#818cf8" stroke-width="0.8" fill="none" opacity="0.4"/>
-                        <circle cx="70" cy="20" r="14" fill="rgba(34,211,238,0.06)" stroke="#22d3ee" stroke-width="0.6" class="illus-float if-2"/>
-                        <text x="70" y="24" text-anchor="middle" fill="#22d3ee" font-size="11">💬</text>
-                        <rect x="100" y="10" width="30" height="20" rx="10" fill="rgba(52,211,153,0.06)" stroke="#34d399" stroke-width="0.6" class="illus-float if-3"/>
-                        <text x="115" y="24" text-anchor="middle" fill="#34d399" font-size="11">🤝</text>
-                    </svg>
                 </div>
-            </div>
             <div class="contact-hero" data-animate="fade-up">
                 <h3>Let's build something <span class="text-gradient">extraordinary</span> together.</h3>
                 <p>Open for AI/ML roles, research collaborations, and ambitious projects.</p>
